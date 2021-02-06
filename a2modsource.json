@@ -1,0 +1,12 @@
+﻿{
+  "description": "Experimental a2 modules collection.",
+  "maintainer": "ewerybody",
+  "maintainer_at": "gmail.com",
+  "name": "a2.modlab",
+  "display_name": "a2.ModLab",
+  "news": "",
+  "update_url": "https://github.com/a2script/a2.modlab",
+  "url": "https://github.com/a2script/a2.modlab",
+  "version": "0.0.1",
+  "zip_size": 0
+}
