@@ -1,0 +1,30 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2020 12 24",
+    "description": "Experimental Screen Capture tool.",
+    "tags": [],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": true,
+    "functionCode": "screengrab()",
+    "functionMode": 0,
+    "key": [
+      "LWin+LShift+C"
+    ],
+    "keyChange": true,
+    "label": "make some awesome stuff",
+    "multiple": true,
+    "name": "ScreenGrab_Hotkey",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "file": "ScreenGrab.ahk",
+    "typ": "include"
+  }
+]
