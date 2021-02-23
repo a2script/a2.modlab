@@ -1,0 +1,30 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2021 2 23",
+    "description": "From a text select\u042en \ufb01nd Uni\u33c7de \u0518pla\u20a0me\u0bf1s for l\ud83d\ude71t\ud83d\ude70 \u33c7\u3386\u33ccat\u042e\u33b1.\nAutohotkey version of <a href=https://htwins.net/unicrush>Cary KH's Unicrush</a>.",
+    "display_name": "UniZip",
+    "tags": [
+      "text"
+    ],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": true,
+    "functionCode": "unizip()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "make some awesome stuff",
+    "multiple": true,
+    "name": "unizip_Hotkey",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "file": "unizip.ahk",
+    "typ": "include"
+  }
+]
