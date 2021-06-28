@@ -10,13 +10,17 @@ from a2qt import QtWidgets, QtGui
 import a2ahk
 import a2core
 import a2ctrl
+import a2util
 from a2element import DrawCtrl, EditCtrl
-from a2widget import a2item_editor, a2button_field, a2coords_field
+from a2widget import a2item_editor, a2button_field, a2coords_field, a2input_dialog
 
 
 DEFAULT_TITLE = '*'
+DEFAULT_NAME = 'Layout'
 NO_AVAILABLE_TXT = 'No a available %s for process "%s"'
 log = a2core.get_logger(__name__)
+ADD_LAYOUT = 'Add Layout'
+MSG_ADD = 'Name the new window layout: (Size: %s)'
 
 
 class SessionRestoreWindowLister(a2item_editor.A2ItemEditor):
@@ -156,8 +160,6 @@ class SessionRestoreWindowLister(a2item_editor.A2ItemEditor):
 
     def add_process(self, name):
         """Append a process name to the current list."""
-        import a2util
-
         # for now we're just filling with the data of 1st found window
         win_data = self._fetch_window_data(name)[0]
 
@@ -190,19 +192,23 @@ class Draw(DrawCtrl):
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.size_combobox = QtWidgets.QComboBox()
-        size_label = QtWidgets.QLabel('Virtual Desktop Size:')
-        size_layout = QtWidgets.QHBoxLayout()
-        size_layout.addWidget(size_label)
-        size_layout.addWidget(self.size_combobox)
-        size_add_button = QtWidgets.QPushButton('Add Size')
-        size_add_button.setEnabled(False)
-        size_layout.addWidget(size_add_button)
-        self.main_layout.addLayout(size_layout)
+        self.layouts_combo = QtWidgets.QComboBox()
+        # size_label = QtWidgets.QLabel('Virtual Desktop Size:')
+        # size_layout.addWidget(size_label)
+        layouts_layout = QtWidgets.QHBoxLayout()
+        layouts_layout.addWidget(self.layouts_combo)
+        add_button = QtWidgets.QPushButton(ADD_LAYOUT)
+        add_button.setIcon(a2ctrl.Icons.list_add)
+        add_button.clicked.connect(self.add_layout)
+        layouts_layout.addWidget(add_button)
+        layouts_layout.setStretch(0, 1)
+        self.main_layout.addLayout(layouts_layout)
 
+        # TODO: Implement desktop_icons_check!
         self.desktop_icons_check = QtWidgets.QCheckBox('Restore Desktop Icons')
         self.desktop_icons_check.clicked[bool].connect(self.desktop_icons_checked)
         self.main_layout.addWidget(self.desktop_icons_check)
+        self.desktop_icons_check.hide()
 
         self.editor = SessionRestoreWindowLister({}, self)
         self.editor.data_changed.connect(self.delayed_check)
@@ -212,24 +218,49 @@ class Draw(DrawCtrl):
 
         self._validate_setups()
 
-        self.size_combobox.currentTextChanged.connect(self._size_selected)
-        self.size_combobox.addItems(self._size_keys)
-        self._size_selected()
+        self.layouts_combo.currentTextChanged.connect(self._on_layout_selected)
+        self.layouts_combo.addItems(self.win_layouts)
+        self._on_layout_selected()
+
+    def add_layout(self):
+        msg = MSG_ADD % self.get_virtual_screen_size()
+        name = a2util.get_next_free_number(DEFAULT_NAME + ' 1', self.win_layouts, ' ')
+        dialog = a2input_dialog.A2InputDialog(self, ADD_LAYOUT, self._add_layout_check, name, msg)
+        dialog.okayed.connect(self._on_add_layout)
+        dialog.exec_()
+
+    def _add_layout_check(self, name):
+        if not name.strip():
+            return 'Layout name cannot be empty!'
+        if name in self.win_layouts:
+            return 'Layout name already exists!'
+        return True
+
+    def _on_add_layout(self, new_name):
+        self.user_cfg[new_name] = {'size': self.get_virtual_screen_size()}
+        self.layouts_combo.blockSignals(True)
+        self.layouts_combo.clear()
+        self.layouts_combo.blockSignals(False)
+        self.layouts_combo.addItems(self.win_layouts)
 
     def desktop_icons_checked(self, value=None):
         if self._drawing:
             return
 
         change = False
-        if value and 'icons' not in self.user_cfg.get(self._size_key, {}):
-            self.user_cfg.setdefault(self._size_key, {})['icons'] = True
+        if value and 'icons' not in self.user_cfg.get(self.current_layout, {}):
+            self.user_cfg.setdefault(self.current_layout, {})['icons'] = True
             change = True
-        elif not value and 'icons' in self.user_cfg.get(self._size_key, {}):
-            del self.user_cfg[self._size_key]['icons']
+        elif not value and 'icons' in self.user_cfg.get(self.current_layout, {}):
+            del self.user_cfg[self.current_layout]['icons']
             change = True
 
         if change:
             self.delayed_check()
+
+    def get_virtual_screen_size(self):
+        cmd = os.path.join(self.mod.path, 'sessionrestore_get_virtual_screen_size.ahk')
+        return a2ahk.call_cmd(cmd, cwd=self.mod.path)
 
     def _validate_setups(self):
         if not self.user_cfg:
@@ -237,11 +268,7 @@ class Draw(DrawCtrl):
 
         first_key_name = list(self.user_cfg.keys())[0].lower()
         if '.exe' in first_key_name:
-            print('updating the dictionary ...')
-            this_path = self.mod.path
-            cmd = os.path.join(this_path, 'sessionrestore_get_virtual_screen_size.ahk')
-            virtual_screen_size = a2ahk.call_cmd(cmd, cwd=this_path)
-            print('  virtual_screen_size: %s' % virtual_screen_size)
+            virtual_screen_size = self.get_virtual_screen_size()
 
             if virtual_screen_size in self.user_cfg:
                 del self.user_cfg[virtual_screen_size]
@@ -266,27 +293,27 @@ class Draw(DrawCtrl):
 
     def check(self, *args):
         super(Draw, self).check()
-        self.user_cfg.setdefault(self._size_key, {}).update({'setups': self.editor.data})
-        # self.user_cfg[self._size_key] = self.editor.data
+        self.user_cfg.setdefault(self.current_layout, {}).update({'setups': self.editor.data})
+        # self.user_cfg[self.current_layout] = self.editor.data
 
         self.set_user_value(self.user_cfg)
         self.change()
 
     @property
-    def _size_keys(self):
+    def win_layouts(self):
         return sorted(self.user_cfg.keys())
 
     @property
-    def _size_key(self):
-        text = self.size_combobox.currentText()
+    def current_layout(self):
+        text = self.layouts_combo.currentText()
         return text
 
-    def _size_selected(self, value=None):
+    def _on_layout_selected(self, value=None):
         self._drawing = True
         if value is None:
-            if not self._size_keys:
+            if not self.win_layouts:
                 return
-            value = self._size_keys[0]
+            value = self.win_layouts[0]
 
         self.editor.data = self.user_cfg.get(value, {}).get('setups', {})
         self.desktop_icons_check.setChecked(self.user_cfg.get(value, {}).get('icons', False))
@@ -305,12 +332,15 @@ class Edit(EditCtrl):
 
     @staticmethod
     def element_icon():
-        return a2ctrl.Icons.inst().check
+        return a2ctrl.Icons.check
 
 
 def get_settings(module_key, cfg, db_dict, user_cfg):
     window_dict = {}
-    for size_key, this_dict in user_cfg.items():
+    for layout_name, this_dict in user_cfg.items():
+        if 'size' not in this_dict:
+            continue
+
         window_list = []
         this_size_dict = this_dict.get('setups', {})
         for this_win_dict in this_size_dict.values():
@@ -327,8 +357,6 @@ def get_settings(module_key, cfg, db_dict, user_cfg):
                     this_win_dict.get('ignore', False),
                 ]
             )
-        window_dict[size_key] = window_list
-        if this_dict.get('icons', False):
-            icons_flag = '%s_icons' % size_key
-            window_dict[icons_flag] = True
+
+        window_dict[layout_name] = {'size': this_dict['size'], 'setups': window_list, 'icons': this_dict.get('icons', False)}
     db_dict['variables']['SessionRestore_List'] = window_dict

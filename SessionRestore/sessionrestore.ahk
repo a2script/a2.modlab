@@ -1,7 +1,3 @@
-; SessionRestore - sessionrestore.ahk
-; author: Eric Werner
-; created: 2017 1 31
-
 sessionrestore_session_restore() {
     ; To avoid using the hidden windows list we need to restore all stored windows of the stored processes.
     ; That gives us the subwindows as well without the gazillions hidden ones.
@@ -18,11 +14,36 @@ sessionrestore_session_restore() {
 
     screen_get_virtual_size(_x, _y, vs_width, vs_height)
     this_vs_size := vs_width "," vs_height
-    this_vs_size_list := SessionRestore_List[this_vs_size]
-    if !IsObject(this_vs_size_list) {
-        ; nothing to do
-        return
+
+    layouts := []
+    for name, layout_data in SessionRestore_List
+    {
+        if (layout_data["size"] == this_vs_size) {
+            ; MsgBox %name% - this_vs_size: %this_vs_size%
+            layouts.Push(name)
+        }
     }
+
+    if (!layouts) {
+        nope_msg := "No layouts f0r this Screen size (" this_vs_size ")!"
+        MsgBox, SessionRestore, %nope_msg%
+        Return
+    }
+
+    if layouts.Length() == 1
+        _sessionrestore_session_restore(layouts[1])
+    else
+    {
+        for i, name in layouts
+            Menu, SessionRestoreMenu, Add, %name%, _sessionrestore_session_restore
+        Menu, SessionRestoreMenu, Show
+        Menu, SessionRestoreMenu, DeleteAll
+    }
+}
+
+_sessionrestore_session_restore(layout_name) {
+    global SessionRestore_List
+    this_vs_size_list := SessionRestore_List[layout_name]["setups"]
 
     Progress, b h100 w500 c00, preparing ..., Restoring your session ...,
 
