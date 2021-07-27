@@ -3,6 +3,7 @@ A special item editor element to host various app layouts with different desktop
 """
 import os
 import json
+import pprint
 from functools import partial
 
 from a2qt import QtWidgets, QtGui
@@ -276,9 +277,14 @@ class Draw(DrawCtrl):
             self.user_cfg = {virtual_screen_size: {'setups': self.user_cfg.copy()}}
             self.set_user_value(self.user_cfg)
 
-            # import pprint
+            #
             # print('  current element cfg:')
             # pprint.pprint(self.user_cfg)
+
+        if '' in self.user_cfg.keys():
+            log.warn('Empty Layout name in config! Removing ...\n%s', pprint.pformat(self.user_cfg['']))
+            del self.user_cfg['']
+            self.set_user_value(self.user_cfg)
 
         change = False
         for virtual_screen_size in list(self.user_cfg.keys()):
