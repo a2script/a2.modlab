@@ -6,6 +6,8 @@ import json
 import pprint
 from functools import partial
 
+from PySide2.QtCore import Qt
+
 from a2qt import QtWidgets, QtGui
 
 import a2ahk
@@ -198,6 +200,8 @@ class Draw(DrawCtrl):
         # size_layout.addWidget(size_label)
         layouts_layout = QtWidgets.QHBoxLayout()
         layouts_layout.addWidget(self.layouts_combo)
+        self.layout_size = QtWidgets.QLabel(self)
+        layouts_layout.addWidget(self.layout_size)
         add_button = QtWidgets.QPushButton(ADD_LAYOUT)
         add_button.setIcon(a2ctrl.Icons.list_add)
         add_button.clicked.connect(self.add_layout)
@@ -300,8 +304,6 @@ class Draw(DrawCtrl):
     def check(self, *args):
         super(Draw, self).check()
         self.user_cfg.setdefault(self.current_layout, {}).update({'setups': self.editor.data})
-        # self.user_cfg[self.current_layout] = self.editor.data
-
         self.set_user_value(self.user_cfg)
         self.change()
 
@@ -320,8 +322,9 @@ class Draw(DrawCtrl):
             if not self.win_layouts:
                 return
             value = self.win_layouts[0]
-
-        self.editor.data = self.user_cfg.get(value, {}).get('setups', {})
+        this_data = self.user_cfg.get(value, {})
+        self.editor.data = this_data.get('setups', {})
+        self.layout_size.setText('(%s)' % (this_data['size']))
         self.desktop_icons_check.setChecked(self.user_cfg.get(value, {}).get('icons', False))
         self.editor.fill_item_list()
         self._drawing = False
