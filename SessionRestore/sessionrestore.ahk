@@ -19,13 +19,12 @@ sessionrestore_session_restore() {
     for name, layout_data in SessionRestore_List
     {
         if (layout_data["size"] == this_vs_size) {
-            ; MsgBox %name% - this_vs_size: %this_vs_size%
             layouts.Push(name)
         }
     }
 
-    if (!layouts) {
-        nope_msg := "No layouts f0r this Screen size (" this_vs_size ")!"
+    if (layouts.Length() < 1) {
+        nope_msg := "No layouts for this Screen size (" this_vs_size ")!"
         MsgBox, SessionRestore, %nope_msg%
         Return
     }
@@ -34,11 +33,23 @@ sessionrestore_session_restore() {
         _sessionrestore_session_restore(layouts[1])
     else
     {
+        label := "SessionRestore - Multilpe Layouts for Desktop size (" this_vs_size ")"
+
+        Menu, SessionRestoreMenu, Add, %label%, _sessionrestore_nop
+        Menu, SessionRestoreMenu, Disable, %label%
+
         for i, name in layouts
             Menu, SessionRestoreMenu, Add, %name%, _sessionrestore_session_restore
+
+        Menu, SessionRestoreMenu, Add
+        Menu, SessionRestoreMenu, Add, Cancel, _sessionrestore_nop
         Menu, SessionRestoreMenu, Show
         Menu, SessionRestoreMenu, DeleteAll
     }
+}
+
+_sessionrestore_nop() {
+    Return
 }
 
 _sessionrestore_session_restore(layout_name) {
