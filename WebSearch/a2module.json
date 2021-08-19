@@ -1,0 +1,37 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2021 8 19",
+    "description": "Look up selected text on any search engine via Hotkey or menu.",
+    "display_name": "",
+    "tags": [
+      "lookup"
+    ],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": true,
+    "functionCode": "websearch()",
+    "functionMode": 0,
+    "key": [
+      "Win+W"
+    ],
+    "keyChange": true,
+    "label": "Call the WebSeach menu",
+    "multiple": true,
+    "name": "WebSearch_Hotkey",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "file": "websearch.ahk",
+    "typ": "include"
+  },
+  {
+    "name": "websearch_lister",
+    "typ": "a2_local_element"
+  }
+]
