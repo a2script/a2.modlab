@@ -1,12 +1,12 @@
 ﻿{
   "description": "Experimental a2 modules collection.",
+  "display_name": "a2.ModLab",
   "maintainer": "ewerybody",
   "maintainer_at": "gmail.com",
   "name": "a2.modlab",
-  "display_name": "a2.ModLab",
-  "news": "",
+  "news": "* First implementation of WebSearch \u2b50\n* SessionRestore: fixed dialog for when no layout matches\n  and added some nfo for multi-selection\n* SessionRestore: Added desktop size label\n  next to layout selection\n* SessionRestore: fixed empty layout names\n* SessionRestore to be able to add any Nr of layouts `wip`\n* new Experimental module UniZip\n  new Exp\ud83d\ude70ime\u0bf1al mo\u0502le UniZip\n* moved `WIP` modules here from a2.modules",
   "update_url": "https://github.com/a2script/a2.modlab",
   "url": "https://github.com/a2script/a2.modlab",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "zip_size": 0
 }
