@@ -3,6 +3,7 @@
     "author": "eric",
     "date": "2020 12 24",
     "description": "Experimental Screen Capture tool.",
+    "display_name": "",
     "tags": [],
     "typ": "nfo",
     "url": "",
@@ -17,7 +18,7 @@
       "LWin+LShift+C"
     ],
     "keyChange": true,
-    "label": "make some awesome stuff",
+    "label": "Call the tool",
     "multiple": true,
     "name": "ScreenGrab_Hotkey",
     "scopeChange": true,
@@ -26,5 +27,11 @@
   {
     "file": "ScreenGrab.ahk",
     "typ": "include"
+  },
+  {
+    "label": "Show last used rectangle",
+    "name": "ScreenGrab_ShowLastRect",
+    "typ": "check",
+    "value": true
   }
 ]
