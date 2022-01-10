@@ -1,3 +1,6 @@
+# From a text selectЮn ﬁnd Uni㏇de Ԙpla₠me௱s for l🙱t🙰 ㏇㎆㏌atЮ㎱.
+# Autohotkey version of <a href=https://htwins.net/unicrush>Cary KH's Unicrush</a>.
+
 (( ⸨
 )) ⸩
 '' "
