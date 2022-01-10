@@ -15,7 +15,7 @@ unizip() {
     new_string := selection
     for chars, replacement in letters {
         if InStr(new_string, chars) {
-            new_string := StringReplace(new_string, chars, replacement, 1)
+            new_string := StrReplace(new_string, chars, replacement)
             count++
         }
     }
@@ -32,7 +32,7 @@ unizip() {
 unizip_get_letters() {
     letters := {}
     FileEncoding, UTF-8
-    letters_file := path_join(path_dirname(A_LineFile), "letters.txt")
+    letters_file := path_neighbor(A_LineFile, "letters.txt")
     Loop, Read, %letters_file%
     {
         line := Trim(A_LoopReadLine)

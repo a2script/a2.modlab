@@ -1,0 +1,25 @@
+# https://unicode-table.com/en/blocks/miscellaneous-symbols-and-arrows/
+
+⬣
+⬢
+⯂
+⬟
+⭓
+⭔
+⬡
+⯃
+⯄
+⯀
+⯁
+
+ꗣ
+ꗨ
+⚝
+⚟
+⚞
+⍩
+⍨
+⎎
+ꀾ
+
+https://unicode-table.com/en/blocks/warang-citi/
