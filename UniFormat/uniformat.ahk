@@ -1,8 +1,7 @@
-; unizip - unizip.ahk - An Autohotkey version of Cary HKs Unicrush: https://htwins.net/unicrush
-; author: eric
-; created: 2021 2 23
+; uniformat.ahk
 
-unizip() {
+
+uniformat_main() {
     selection := clipboard_get()
     if !selection
         return
