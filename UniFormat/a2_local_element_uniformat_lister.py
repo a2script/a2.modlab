@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
+import os
+from re import T
 import a2ctrl
+import a2path
 from a2qt import QtWidgets
 from a2element import DrawCtrl, EditCtrl
 from a2widget.a2item_editor import A2ItemEditor
 from a2widget.key_value_table import KeyValueTable
 
+THIS_DIR = os.path.abspath(os.path.dirname(__file__))
+SETS = os.path.join(THIS_DIR, 'sets')
+
 
 class Draw(DrawCtrl):
-    """
-    The frontend widget visible to the user with options
-    to change the default behavior of the element.
-    """
     def __init__(self, *args):
         super(Draw, self).__init__(*args)
         self.main_layout = QtWidgets.QVBoxLayout(self)
@@ -21,6 +23,13 @@ class Draw(DrawCtrl):
         self.main_layout.addWidget(self.editor)
         self.is_expandable_widget = True
 
+        data = {}
+        for item in a2path.iter_types(SETS, ['.txt']):
+            this_data = _get_sets_data(item.path)
+            if this_data:
+                data[item.base] = {'data': this_data}
+        self.editor.set_data(data)
+
     def check(self):
         self.user_cfg = self.editor.data
         self.set_user_value(self.user_cfg)
@@ -30,8 +39,9 @@ class Draw(DrawCtrl):
 class UniFormatLister(A2ItemEditor):
     def __init__(self, cfg, parent):
         self.draw_ctrl = parent
-        self.data = cfg or {}
         super().__init__(parent)
+
+        self.hotkey = a2element.hotkey.Draw(self, hk_config, self._dummymod, self._hk_user_cfg)
 
         self.key_value_table = KeyValueTable(self)
         self.key_value_table.changed.connect(self._update_data)
@@ -63,6 +73,21 @@ class Edit(EditCtrl):
     @staticmethod
     def element_icon():
         return a2ctrl.Icons.check
+
+
+def _get_sets_data(path):
+    data = {}
+    passed_comments = False
+    with open(path, encoding='utf8') as file_obj:
+        for line in file_obj:
+            if not passed_comments and line.startswith('#'):
+                continue
+            passed_comments = True
+            pieces = line.rstrip().split()
+            if len(pieces) <= 1:
+                continue
+            data[pieces[0]] = pieces[1]
+    return data
 
 
 def get_settings(module_key, cfg, db_dict, user_cfg):
