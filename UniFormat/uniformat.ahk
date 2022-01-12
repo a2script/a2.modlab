@@ -26,15 +26,15 @@ uniformat_main() {
 uniformat_replace(set_name) {
     ; static all_letters
     global _uniformat_selection
-    letters := uniformat_get_letters(set_name)
-    if (set_name == "Cancel" and !letters)
+    data := uniformat_get_letters(set_name)
+    if (set_name == "Cancel" and !data)
         Return
 
     count := 0
     new_string := _uniformat_selection
     current_case := A_StringCaseSense
     StringCaseSense, On
-    for replacement, chars in letters {
+    for replacement, chars in data.letters {
         if InStr(new_string, chars) {
             new_string := StrReplace(new_string, chars, replacement)
             count++
@@ -45,9 +45,9 @@ uniformat_replace(set_name) {
     clipboard_paste(new_string)
 
     if !count
-        a2tip("UniZip: Nothing replaced")
+        a2tip("UniFormat: Nothing replaced")
     else {
-        msg := "UniZip: Found " count " items.`nCharacters before/now:"
+        msg := "UniFormat: Found " count " items.`nCharacters before/now:"
         a2tip(msg StrLen(_uniformat_selection) "/" StrLen(new_string), 3)
     }
 }
@@ -56,6 +56,7 @@ uniformat_replace(set_name) {
 uniformat_get_letters(set_name) {
     ; Get data from a sets txt by spliting by spaces and
     ; getting 1st as key and 2nd as value.
+    data := {}
     letters := {}
     passed_comments := 0
     FileEncoding, UTF-8
@@ -76,5 +77,6 @@ uniformat_get_letters(set_name) {
         letters[chars[2]] := chars[1]
     }
 
-    Return letters
+    data["letters"] := letters
+    Return data
 }

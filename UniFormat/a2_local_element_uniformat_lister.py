@@ -1,16 +1,28 @@
-# -*- coding: utf-8 -*-
 import os
-from re import T
+from copy import deepcopy
+
 import a2ctrl
 import a2path
-from a2qt import QtWidgets
+import a2element.hotkey
 from a2element import DrawCtrl, EditCtrl
 from a2widget.a2item_editor import A2ItemEditor
 from a2widget.key_value_table import KeyValueTable
+from a2qt import QtWidgets
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 SETS = os.path.join(THIS_DIR, 'sets')
-
+_DEFAULT_HOTKEY = {
+    # 'disablable': True,
+    'enabled': False,
+    'key': [''],
+    'keyChange': True,
+    'multiple': True,
+    'name': 'Instant replace',
+    'scope': [],
+    'scopeChange': False,
+    'scopeMode': 0,
+    # 'typ': 'hotkey',
+}
 
 class Draw(DrawCtrl):
     def __init__(self, *args):
@@ -41,7 +53,9 @@ class UniFormatLister(A2ItemEditor):
         self.draw_ctrl = parent
         super().__init__(parent)
 
-        self.hotkey = a2element.hotkey.Draw(self, hk_config, self._dummymod, self._hk_user_cfg)
+        self.hotkey = a2element.hotkey.Draw(self, deepcopy(_DEFAULT_HOTKEY))
+        # self.hotkey.changed.connect(self._changed)
+        self.add_row(self.hotkey)
 
         self.key_value_table = KeyValueTable(self)
         self.key_value_table.changed.connect(self._update_data)
