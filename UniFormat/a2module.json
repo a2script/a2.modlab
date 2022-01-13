@@ -17,7 +17,7 @@
     "functionCode": "uniformat_main()",
     "functionMode": 0,
     "keyChange": true,
-    "label": "call UniFormat main menu",
+    "label": "Main Menu",
     "multiple": true,
     "name": "UniFormat_Hotkey",
     "scopeChange": true,

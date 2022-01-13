@@ -39,7 +39,7 @@ class Draw(DrawCtrl):
         for item in a2path.iter_types(SETS, ['.txt']):
             this_data = _get_sets_data(item.path)
             if this_data:
-                data[item.base] = {'data': this_data}
+                data[item.base] = this_data
         self.editor.set_data(data)
 
     def check(self):
@@ -53,13 +53,18 @@ class UniFormatLister(A2ItemEditor):
         self.draw_ctrl = parent
         super().__init__(parent)
 
+        self.desc = QtWidgets.QLabel(wordWrap=True, openExternalLinks=True)
+        self.enlist_widget('desc', self.desc, self.desc.setText, '')
+        self.add_row(self.desc)
+
         self.hotkey = a2element.hotkey.Draw(self, deepcopy(_DEFAULT_HOTKEY))
         # self.hotkey.changed.connect(self._changed)
+
         self.add_row(self.hotkey)
 
         self.key_value_table = KeyValueTable(self)
         self.key_value_table.changed.connect(self._update_data)
-        self.enlist_widget('data', self.key_value_table, self.key_value_table.set_data, {})
+        self.enlist_widget('letters', self.key_value_table, self.key_value_table.set_data, {})
         self.add_row(self.key_value_table)
 
     def _update_data(self):
@@ -90,17 +95,26 @@ class Edit(EditCtrl):
 
 
 def _get_sets_data(path):
-    data = {}
+    data = {} # type: dict[str, str | bool | dict]
+    letters = {} # type: dict[str, str]
     passed_comments = False
     with open(path, encoding='utf8') as file_obj:
         for line in file_obj:
             if not passed_comments and line.startswith('#'):
+                line = line.strip('# ')
+                if not line:
+                    continue
+                pieces = line.split('=', 1)
+                if len(pieces) == 1 or ' ' in pieces[0]:
+                    continue
+                data[pieces[0].strip()] = pieces[1].strip()
                 continue
             passed_comments = True
-            pieces = line.rstrip().split()
+            pieces = line.rstrip().split(' ', 1)
             if len(pieces) <= 1:
                 continue
-            data[pieces[0]] = pieces[1]
+            letters[pieces[0]] = pieces[1]
+    data['letters'] = letters
     return data
 
 
