@@ -1,22 +1,33 @@
-; uniformat.ahk
-
-
 uniformat_main() {
-    global _uniformat_selection
+    global _uniformat_selection, _uniformat_names
     _uniformat_selection := clipboard_get()
     if !_uniformat_selection {
         a2tip("UniFormat: Nothing selected!")
         return
     }
 
-    sets := []
+    _uniformat_names := {}
+    menu_names := {}
     sets_dir := path_neighbor(A_LineFile, "sets")
     sets_pattern := path_join(sets_dir, "*.txt")
+    FileEncoding, UTF-8
     Loop, Files, % sets_pattern
     {
-        Menu, UniFormatMenu, Add, %A_LoopFileName%, uniformat_replace
-        sets.Push(A_LoopFileName)
+        if string_startswith(A_LoopFileName, "_ ")
+            Continue
+        line := FileReadLine(A_LoopFileFullPath, 1)
+        if string_startswith(line, "# name=")
+            name := SubStr(line, 8)
+        else
+            name := path_split_ext(A_LoopFileName)[1]
+        _uniformat_names[name] := A_LoopFileName
+        menu_names[A_LoopFileName] := name
     }
+
+    ; Display the menu sorted by filename
+    for file_name, name in menu_names
+        Menu, UniFormatMenu, Add, %name%, uniformat_replace
+
     Menu, UniFormatMenu, Add
     Menu, UniFormatMenu, Add, Cancel, uniformat_replace
     Menu, UniFormatMenu, Show
@@ -25,30 +36,37 @@ uniformat_main() {
 
 uniformat_replace(set_name) {
     ; static all_letters
-    global _uniformat_selection
-    data := uniformat_get_letters(set_name)
+    global _uniformat_selection, _uniformat_names
+    data := uniformat_get_letters(_uniformat_names[set_name])
     if (set_name == "Cancel" and !data)
         Return
 
     count := 0
     new_string := _uniformat_selection
     current_case := A_StringCaseSense
-    StringCaseSense, On
+    if !data.case
+        StringCaseSense, On
     for replacement, chars in data.letters {
-        if InStr(new_string, chars) {
+        if InStr(new_string, chars, !data.case) {
             new_string := StrReplace(new_string, chars, replacement)
             count++
         }
     }
-    StringCaseSense, %current_case%
+    if !data.case
+        StringCaseSense, %current_case%
+
+    if data.reverse
+        new_string := string_reverse(new_string)
 
     clipboard_paste(new_string)
 
     if !count
         a2tip("UniFormat: Nothing replaced")
     else {
-        msg := "UniFormat: Found " count " items.`nCharacters before/now:"
-        a2tip(msg StrLen(_uniformat_selection) "/" StrLen(new_string), 3)
+        msg := "UniFormat: Found " count " items to replace."
+        if data.shrink
+            msg .= "`nCharacters before/now:" StrLen(_uniformat_selection) "/" StrLen(new_string)
+        a2tip(msg, 3)
     }
 }
 
@@ -58,25 +76,33 @@ uniformat_get_letters(set_name) {
     ; getting 1st as key and 2nd as value.
     data := {}
     letters := {}
-    passed_comments := 0
-    FileEncoding, UTF-8
+    header_done := False
 
     letters_file := path_neighbor(A_LineFile, "sets\" string_suffix(set_name, ".txt"))
+    args := ["case", "reverse", "shrink"]
+    trim_chars := ["#", " "]
+    tst := ""
 
+    FileEncoding, UTF-8
     Loop, Read, %letters_file%
     {
         line := Trim(A_LoopReadLine)
         if !line
             Continue
 
-        if (!passed_comments and string_startswith(line, "#"))
+        if (!header_done and string_startswith(line, "#")) {
+            line := string_trimLeft(line, trim_chars)
+            parts := StrSplit(line, "=",,2)
+            if string_is_in_array(parts[1], args)
+                data[parts[1]] := parts[2]
             Continue
-        passed_comments := 1
+        }
+        header_done := 1
 
-        chars := StrSplit(A_LoopReadLine, " ")
+        chars := StrSplit(line, " ")
+        tst .= chars[2]
         letters[chars[2]] := chars[1]
     }
-
     data["letters"] := letters
     Return data
 }
