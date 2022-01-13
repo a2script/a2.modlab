@@ -1,5 +1,7 @@
-# From a text selectЮn ﬁnd Uni㏇de Ԙpla₠me௱s for l🙱t🙰 ㏇㎆㏌atЮ㎱.
-# Autohotkey version of <a href=https://htwins.net/unicrush>Cary KH's Unicrush</a>.
+# name=UniCr㎲h
+# desc=Shorten strings with Uni㏇de Ԙpla₠me௱s for l🙱t🙰 ㏇㎆㏌atЮ㎱. a2/Autohotkey version of <a href=https://htwins.net/unicrush>Cary KH's Unicrush</a>.
+# shrink=1
+# case=1
 
 (( ⸨
 )) ⸩

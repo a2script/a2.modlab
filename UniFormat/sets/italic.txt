@@ -1,3 +1,6 @@
+# name=𝐼𝑡𝑎𝑙𝑖𝑐
+# desc=𝐼𝑡𝑎𝑙𝑖𝑐 𝑙𝑒𝑡𝑡𝑒𝑟𝑠 assembled from <a href=https://unicode-table.com/en/blocks/mathematical-alphanumeric-symbols>the "Mathematical Alphanumeric Symbols"-block</a> and for some reason <a href=https://unicode-table.com/en/blocks/letterlike-symbols>the "Letterlike Symbols"-block</a>! E.g. the italic <a href=https://unicode-table.com/en/210E>ℎ is listed as <b>Planck Constant</b></a>.
+
 A 𝐴
 B 𝐵
 C 𝐶
@@ -31,7 +34,7 @@ d 𝑑
 e 𝑒
 f 𝑓
 g 𝑔
-h 𝑕
+h ℎ
 i 𝑖
 j 𝑗
 k 𝑘

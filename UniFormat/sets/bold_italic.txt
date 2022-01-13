@@ -1,3 +1,6 @@
+# name=𝑩𝒐𝒍𝒅 𝑰𝒕𝒂𝒍𝒊𝒄
+# desc=𝑩𝒐𝒍𝒅 𝑰𝒕𝒂𝒍𝒊𝒄 letters from <a href=https://unicode-table.com/en/blocks/mathematical-alphanumeric-symbols>the "Mathematical Alphanumeric Symbols"-block</a>.
+
 A 𝑨
 B 𝑩
 C 𝑪

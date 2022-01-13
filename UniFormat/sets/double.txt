@@ -1,3 +1,6 @@
+# name=𝔻𝕠𝕦𝕓𝕝𝕖-𝕊𝕥𝕣𝕦𝕔𝕜
+# desc=𝔻𝕠𝕦𝕓𝕝𝕖-𝕊𝕥𝕣𝕦𝕔𝕜 letters assembled from <a href=https://unicode-table.com/en/blocks/mathematical-alphanumeric-symbols>the "Mathematical Alphanumeric Symbols"-block</a> and for some reason <a href=https://unicode-table.com/en/blocks/letterlike-symbols>the "Letterlike Symbols"-block</a>! 🤷‍♀️
+
 A 𝔸
 B 𝔹
 C ℂ

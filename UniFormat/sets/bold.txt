@@ -1,3 +1,6 @@
+# name=𝐁𝐨𝐥𝐝
+# desc=𝐁𝐨𝐥𝐝 𝐥𝐞𝐭𝐭𝐞𝐫𝐬 from <a href=https://unicode-table.com/en/blocks/mathematical-alphanumeric-symbols>the "Mathematical Alphanumeric Symbols"-block</a>.
+
 A 𝐀
 B 𝐁
 C 𝐂

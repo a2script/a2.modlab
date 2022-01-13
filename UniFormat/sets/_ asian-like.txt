@@ -1,4 +1,8 @@
-A ⼊ ⺇ ⽉ 亼
+# name=亼与⻈⼊⺆ ⺃⻈⻓⺋
+# case=1
+# desc=Some Asian/Chinese/Japanese lookalike characters. Early WiP.
+
+A 亼 ⼊ ⺇ ⽉
 B 𠂤 乃 ⽇ 𫝀
 C 亡 ⼖ ⼕
 D 仯
@@ -10,15 +14,15 @@ I ⼯ 丨 ⻈
 J ⼅ 丿 亅 ㇚ ㇁ 𠃌
 K ⻓
 L ⺃ ㇄
-M ⺵ ⽠⽖
+M ⺵ ⽠ ⽖
 N ⺆
 O ⼝ ⼞ ㇣ ㇿ
 P ⼫ 𠁣 𠃜 𠁣
 Q 𠁾 㔿
 R 尺 ⺠ 伬 𪞚
-S ⼰ 与
+S 与 ⼰
 T ナ テ ⼗ ⼨ 丁 丅 七 ㇶ
-U 𠆧 ⼐
+U 𠆧 ⼐ 𠀌 𠃏
 V ㇾ
 W ⼭
 X ⺢ ⽗ 乂 义 㐅
