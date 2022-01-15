@@ -98,6 +98,7 @@ ao ꜵ ᴔ
 AA Ꜳ
 aa ꜳ
 am ㏂
+AR 🜇
 AU ㍳ Ꜷ
 au ꜷ
 AV Ꜹ
@@ -147,6 +148,7 @@ ffl ﬄ
 fm ㎙
 ft ﬅ
 fn ʩ
+fff 🝝
 
 gal ㏿
 GB ㎇
@@ -209,7 +211,7 @@ lx ㏓
 mA ㎃
 mb ㏔
 
-MB ㎆
+MB ㎆ 🝫
 Mj Ɱ
 mg ㎎
 mil ㏕
@@ -250,6 +252,7 @@ oe ꟹ
 ov ㍵
 
 qp ȹ
+QE 🜀
 
 Pts ₧
 pA ㎀
@@ -273,6 +276,7 @@ st ﬆ
 sr ㏛
 Sv ㏜
 SM ℠
+sss 🝜
 
 t, ƫ
 t' ť
@@ -295,6 +299,7 @@ us ㎲
 uV ㎶
 uW ㎼
 
+VB 🝬
 vii ⅶ
 vi ⅵ
 vii ⅶ
