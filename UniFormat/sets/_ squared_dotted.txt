@@ -1,3 +1,6 @@
+# desc=These are used as "Regional indicator symbols" so they sometimes end up in flags. Hardly usable.
+
+
 A 🇦
 B 🇧
 C 🇨

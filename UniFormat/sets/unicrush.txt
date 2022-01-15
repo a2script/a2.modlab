@@ -94,7 +94,7 @@ A/S ⅍
 AE Ӕ
 ae ӕ ᴂ æ
 AO Ꜵ
-ao ᴔ
+ao ꜵ ᴔ
 AA Ꜳ
 aa ꜳ
 am ㏂
@@ -289,6 +289,8 @@ tz ꜩ
 
 ul ㎕
 ue ᵫ ᵫ
+un տ
+uo ꭣ
 us ㎲
 uV ㎶
 uW ㎼
