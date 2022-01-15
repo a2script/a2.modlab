@@ -1,5 +1,6 @@
 # name=uʍop-ǝpᴉƨpu pǝppᴉɿɟ
 # reverse=1
+# desc=Letters uʍop-ǝpᴉƨpu pǝppᴉɿɟ (with varying legibility ꓒIʍ).
 
 A ꓯ ∀
 B ꓭ 𐤡 𐐒
@@ -23,7 +24,7 @@ R ꓤ ᴚ
 T Ʇ Ʇ
 U ꓵ ⋂ ∩
 V Ʌ ᴧ ꓥ
-W 𐤵 M ʍ
+W ʍ M 𐤵
 
 Y ⅄
 
@@ -51,7 +52,7 @@ u n
 v ʌ
 w ʍ
 
-y ʎ
+y ʎ ɦ
 
 & ⅋
 
