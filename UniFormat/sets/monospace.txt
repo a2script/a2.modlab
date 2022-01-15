@@ -1,4 +1,5 @@
 # name=𝙼𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎
+# desc=𝙼𝚘𝚗𝚘𝚜𝚙𝚊𝚌𝚎 𝚕𝚎𝚝𝚝𝚎𝚛𝚜 from <a href=https://unicode-table.com/en/blocks/mathematical-alphanumeric-symbols>the "Mathematical Alphanumeric Symbols"-block</a>
 
 A 𝙰
 B 𝙱

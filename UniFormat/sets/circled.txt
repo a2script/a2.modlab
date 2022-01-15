@@ -1,4 +1,5 @@
 # name=ⓒⓘⓡⓒⓛⓔⓓ
+# desc=Ⓒⓘⓡⓒⓛⓔⓓ letters and numbers from the <a href=https://unicode-table.com/en/blocks/enclosed-alphanumerics>Enclosed Alphanumerics</a> block.
 
 A Ⓐ
 B Ⓑ

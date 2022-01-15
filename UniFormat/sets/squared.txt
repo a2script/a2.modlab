@@ -1,5 +1,6 @@
 # name=🅂🅀🅄🄰🅁🄴🄳
 # case=1
+# desc=🅂🅀🅄🄰🅁🄴🄳 upper case letters from <a href=https://unicode-table.com/en/blocks/enclosed-alphanumeric-supplement>the "Enclosed Alphanumeric Supplement"-block</a>.
 
 A 🄰
 B 🄱

@@ -1,4 +1,5 @@
 # name=𝖲𝖺𝗇𝗌 𝖲𝖾𝗋𝗂𝖿
+# desc=𝖲𝖺𝗇𝗌 𝖲𝖾𝗋𝗂𝖿 letters from <a href=https://unicode-table.com/en/blocks/mathematical-alphanumeric-symbols>the "Mathematical Alphanumeric Symbols"-block</a>.
 
 A 𝖠
 B 𝖡
