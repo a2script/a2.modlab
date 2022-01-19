@@ -1,34 +1,36 @@
-# name=亼与⻈⼊⺆ ⺃⻈⻓⺋
+# name=亼ㄅ⻈⼊ㄇ ㄙ⻈⻓ㄠ
 # case=1
 # desc=Some Asian/Chinese/Japanese lookalike characters. Early WiP.
 
 A 亼 ⼊ ⺇ ⽉
 B 𠂤 乃 ⽇ 𫝀
-C 亡 ⼖ ⼕
+C ㄈ 亡 ⼖ ⼕
 D 仯
-E ⺒ 三 乞 仑 仨 乇 𠀉
+E ⺒ 三 乞 仑 仨 乇 𠀉 ㄠ
 F 𠂋 ⼿ 㓀
 G 𠂑
 H ⼶ 万 什 〹 𠁡
-I ⼯ 丨 ⻈
+I ⼯ 丨 ⻈ ㄧ
 J ⼅ 丿 亅 ㇚ ㇁ 𠃌
-K ⻓
-L ⺃ ㇄
-M ⺵ ⽠ ⽖
-N ⺆
-O ⼝ ⼞ ㇣ ㇿ
-P ⼫ 𠁣 𠃜 𠁣
+K ⻓ 丬
+L ㄙ ⺃ ㇄
+M ⺵ ⽠ ⽖ ㆬ ㆰ
+N ⺆ ㄇ
+O ㄖ ⼝ ⼞ ㇣ ㇿ
+P ㄗ ⼫ 𠁣 𠃜 𠁣 ㄕ
 Q 𠁾 㔿
 R 尺 ⺠ 伬 𪞚
-S 与 ⼰
+S ㄅ 与 ⼰
 T ナ テ ⼗ ⼨ 丁 丅 七 ㇶ
-U 𠆧 ⼐ 𠀌 𠃏
+U ㄩ 𠆧 ⼐ 𠀌 𠃏
 V ㇾ
 W ⼭
-X ⺢ ⽗ 乂 义 㐅
-Y 丫 丩 𠁥 𠂈
+X ⺢ ⽗ 乂 义 㐅 ㆨ
+Y 丫 丩 𠁥 𠂈 ㄚ ㄐ
 Z 之 乙 乏
 
 b ⻖
 e ⺋
 i ⻈
+
+3 ㄋ ㇌ ㇡
