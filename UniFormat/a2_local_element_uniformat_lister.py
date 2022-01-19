@@ -12,6 +12,7 @@ from a2qt import QtWidgets
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 SETS = os.path.join(THIS_DIR, 'sets')
+WIP_CHECK = 'wip_check'
 _DEFAULT_HOTKEY = {
     # 'disablable': True,
     'enabled': False,
@@ -39,20 +40,51 @@ class Draw(DrawCtrl):
         self.editor = UniFormatLister(self.user_cfg, self)
         self.editor.data_changed.connect(self.delayed_check)
         self.main_layout.addWidget(self.editor)
+        show_wip = self.user_cfg.get(WIP_CHECK, False)
+        self.load_sets(show_wip)
+
+        self.wip_check = QtWidgets.QCheckBox('Show WIP sets')
+        self.wip_check.setToolTip(
+            'Enable sets flagged "Work in Progress" to show in list and main menu.'
+        )
+        self.wip_check.setChecked(show_wip)
+        self.wip_check.clicked.connect(self.delayed_check)
+        self.wip_check.clicked.connect(self.load_sets)
+        self.main_layout.addWidget(self.wip_check)
+
         self.is_expandable_widget = True
 
+    def load_sets(self, show_wip=None):
+        if show_wip is None:
+            show_wip = self.user_cfg.get(WIP_CHECK, False)
+
         data = {}
+        user_sets = self.user_cfg.get('sets', {})
         for item in a2path.iter_types(SETS, ['.txt']):
             this_data = _get_sets_data(item.path)
-            if this_data:
-                this_hk = self.user_cfg.get(item.base, {}).get('hotkey')
-                if this_hk is not None:
-                    this_data['hotkey'] = this_hk
-                data[item.base] = this_data
+            if not this_data:
+                continue
+            if not show_wip and item.base.startswith('_ ') or 'wip' in this_data:
+                continue
+            this_hk = user_sets.get(item.base, {}).get(a2hotkey.NAME)
+            if this_hk is not None:
+                this_data[a2hotkey.NAME] = this_hk
+            data[item.base] = this_data
         self.editor.set_data(data)
 
     def check(self):
-        self.user_cfg = self.editor.data
+        user_sets = self.user_cfg.get('sets', {})
+        for name, set_data in self.editor.data.items():
+            if a2hotkey.NAME not in set_data:
+                if a2hotkey.NAME in user_sets.get(name, {}):
+                    del user_sets[name][a2hotkey.NAME]
+                continue
+            user_sets.setdefault(name, {})[a2hotkey.NAME] = set_data[a2hotkey.NAME]
+        self.user_cfg['sets'] = user_sets
+        if self.wip_check.isChecked():
+            self.user_cfg[WIP_CHECK] = True
+        elif WIP_CHECK in self.user_cfg:
+            del self.user_cfg[WIP_CHECK]
         self.set_user_value(self.user_cfg)
         self.change()
 
@@ -178,8 +210,11 @@ def get_settings(module_key, cfg, db_dict, user_cfg):
 
     * "includes" - a simple list with ahk script paths
     """
-    for name, data in user_cfg.items():
-        hotkey = data.get('hotkey')
+    if user_cfg.get(WIP_CHECK, False):
+        db_dict['variables']['uniformat_show_wip'] = True
+
+    for data in user_cfg.get('sets', {}).values():
+        hotkey = data.get(a2hotkey.NAME)
         if hotkey is not None:
             if not hotkey.get('enabled', False):
                 continue

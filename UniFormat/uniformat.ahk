@@ -8,12 +8,11 @@ uniformat_main() {
 
     _uniformat_names := {}
     menu_names := {}
-    sets_dir := path_neighbor(A_LineFile, "sets")
-    sets_pattern := path_join(sets_dir, "*.txt")
+    sets_pattern := path_join(path_neighbor(A_LineFile, "sets"), "*.txt")
     FileEncoding, UTF-8
     Loop, Files, % sets_pattern
     {
-        if string_startswith(A_LoopFileName, "_ ")
+        if (string_startswith(A_LoopFileName, "_ ") and !uniformat_show_wip)
             Continue
         line := FileReadLine(A_LoopFileFullPath, 1)
         if string_startswith(line, "# name=")
