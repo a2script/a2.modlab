@@ -5,6 +5,7 @@ import a2ctrl
 import a2path
 import a2element.hotkey
 from a2element import DrawCtrl, EditCtrl
+from a2widget import a2hotkey
 from a2widget.a2item_editor import A2ItemEditor
 from a2widget.key_value_table import KeyValueTable
 from a2qt import QtWidgets
@@ -23,6 +24,11 @@ _DEFAULT_HOTKEY = {
     'scopeMode': 0,
     # 'typ': 'hotkey',
 }
+MSG_ALT = (
+    'Values separated by space are alternatives (currently ignored!) '
+    'Only the <b>first</b> is used!'
+)
+
 
 class Draw(DrawCtrl):
     def __init__(self, *args):
@@ -39,6 +45,9 @@ class Draw(DrawCtrl):
         for item in a2path.iter_types(SETS, ['.txt']):
             this_data = _get_sets_data(item.path)
             if this_data:
+                this_hk = self.user_cfg.get(item.base, {}).get('hotkey')
+                if this_hk is not None:
+                    this_data['hotkey'] = this_hk
                 data[item.base] = this_data
         self.editor.set_data(data)
 
@@ -58,11 +67,16 @@ class UniFormatLister(A2ItemEditor):
         self.add_row(self.desc)
 
         self.hotkey = a2element.hotkey.Draw(self, deepcopy(_DEFAULT_HOTKEY))
-        # self.hotkey.changed.connect(self._changed)
+        self.hotkey.changed.connect(self._changed)
 
         self.add_row(self.hotkey)
 
+        self.table_lable = QtWidgets.QLabel()
+        self.table_lable.setWordWrap(True)
+        self.add_row(self.table_lable)
+
         self.key_value_table = KeyValueTable(self)
+        self.selected_name_changed.connect(self._set_hotkey_label)
         self.key_value_table.changed.connect(self._update_data)
         self.enlist_widget('letters', self.key_value_table, self.key_value_table.set_data, {})
         self.add_row(self.key_value_table)
@@ -75,12 +89,31 @@ class UniFormatLister(A2ItemEditor):
                 self.data[self.selected_name]['data'] = table_data
                 self.data_changed.emit()
 
+    def _changed(self):
+        self.data[self.selected_name]['hotkey'] = self.hotkey.get_user_dict()
+        self.data_changed.emit()
+
+    def _set_hotkey_label(self, name):
+        self.hotkey.label.setText(f'Format with "<b>{name}</b>" directly')
+
+        this_data = self.data.get(name, {})
+        this_hotkey = deepcopy(_DEFAULT_HOTKEY)
+        this_hotkey.update(this_data.get('hotkey', {}))
+        self.hotkey.set_config(this_hotkey)
+
+        letters = this_data.get('letters', {})
+        label = '<b>%i</b> keys. ' % len(letters)
+        if any(' ' in v for v in letters.values()):
+            label += MSG_ALT
+        self.table_lable.setText(label)
+
 
 class Edit(EditCtrl):
     """
     The background widget that sets up how the user can edit the element,
     visible when editing the module.
     """
+
     def __init__(self, cfg, main, parent_cfg):
         super(Edit, self).__init__(cfg, main, parent_cfg)
 
@@ -95,8 +128,8 @@ class Edit(EditCtrl):
 
 
 def _get_sets_data(path):
-    data = {} # type: dict[str, str | bool | dict]
-    letters = {} # type: dict[str, str]
+    data = {}  # type: dict[str, str | bool | dict]
+    letters = {}  # type: dict[str, str]
     passed_comments = False
     with open(path, encoding='utf8') as file_obj:
         for line in file_obj:
@@ -145,4 +178,23 @@ def get_settings(module_key, cfg, db_dict, user_cfg):
 
     * "includes" - a simple list with ahk script paths
     """
-    pass
+    for name, data in user_cfg.items():
+        hotkey = data.get('hotkey')
+        if hotkey is not None:
+            if not hotkey.get('enabled', False):
+                continue
+            key = hotkey.get('key')
+            if not key or not key[0]:
+                continue
+
+            func = f'uniformat_replace("{data["name"]}")'
+            scope = hotkey.get(a2hotkey.Vars.scope, [])
+            scope_mode = hotkey.get(a2hotkey.Vars.scope_mode, 0)
+
+            db_dict.setdefault('hotkeys', {})
+            db_dict['hotkeys'].setdefault(scope_mode, [])
+            # save a global if global scope set or all-but AND scope is empty
+            if scope_mode == 0 or scope_mode == 2 and scope == '':
+                db_dict['hotkeys'][0].append([key, func])
+            else:
+                db_dict['hotkeys'][scope_mode].append([scope, key, func])
