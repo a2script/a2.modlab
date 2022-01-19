@@ -221,7 +221,7 @@ mPa ㎫
 ms ㎳
 mV ㎷
 MV ㎹
-㎽ mW
+mW ㎽
 MW ㎿
 
 nA ㎁
