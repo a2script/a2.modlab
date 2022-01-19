@@ -2,7 +2,7 @@
   {
     "author": "eric",
     "date": "2021 2 23",
-    "description": "Find and Replace in selected text with sets from the huge unicode repository.",
+    "description": "Find and Replace in selected text with sets from the huge unicode repository. (TODO: implement set editing)",
     "display_name": "UniFormat",
     "tags": [
       "text"

@@ -14,16 +14,13 @@ THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 SETS = os.path.join(THIS_DIR, 'sets')
 WIP_CHECK = 'wip_check'
 _DEFAULT_HOTKEY = {
-    # 'disablable': True,
     'enabled': False,
     'key': [''],
     'keyChange': True,
     'multiple': True,
-    'name': 'Instant replace',
     'scope': [],
     'scopeChange': False,
     'scopeMode': 0,
-    # 'typ': 'hotkey',
 }
 MSG_ALT = (
     'Values separated by space are alternatives (currently ignored!) '
@@ -37,7 +34,7 @@ class Draw(DrawCtrl):
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.editor = UniFormatLister(self.user_cfg, self)
+        self.editor = UniFormatLister(self)
         self.editor.data_changed.connect(self.delayed_check)
         self.main_layout.addWidget(self.editor)
         show_wip = self.user_cfg.get(WIP_CHECK, False)
@@ -90,7 +87,7 @@ class Draw(DrawCtrl):
 
 
 class UniFormatLister(A2ItemEditor):
-    def __init__(self, cfg, parent):
+    def __init__(self, parent):
         self.draw_ctrl = parent
         super().__init__(parent)
 
@@ -108,6 +105,7 @@ class UniFormatLister(A2ItemEditor):
         self.add_row(self.table_lable)
 
         self.key_value_table = KeyValueTable(self)
+        self.key_value_table.setEditTriggers(QtWidgets.QTableWidget.NoEditTriggers)
         self.selected_name_changed.connect(self._set_hotkey_label)
         self.key_value_table.changed.connect(self._update_data)
         self.enlist_widget('letters', self.key_value_table, self.key_value_table.set_data, {})
@@ -122,7 +120,7 @@ class UniFormatLister(A2ItemEditor):
                 self.data_changed.emit()
 
     def _changed(self):
-        self.data[self.selected_name]['hotkey'] = self.hotkey.get_user_dict()
+        self.data[self.selected_name][a2hotkey.NAME] = self.hotkey.get_user_dict()
         self.data_changed.emit()
 
     def _set_hotkey_label(self, name):
@@ -130,7 +128,7 @@ class UniFormatLister(A2ItemEditor):
 
         this_data = self.data.get(name, {})
         this_hotkey = deepcopy(_DEFAULT_HOTKEY)
-        this_hotkey.update(this_data.get('hotkey', {}))
+        this_hotkey.update(this_data.get(a2hotkey.NAME, {}))
         self.hotkey.set_config(this_hotkey)
 
         letters = this_data.get('letters', {})
