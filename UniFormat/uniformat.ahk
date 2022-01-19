@@ -41,9 +41,14 @@ uniformat_replace(set_name) {
     if (set_name == "Cancel" and !data)
         Return
 
-    count := 0
-    new_string := _uniformat_selection
+    if (_uniformat_selection)
+        new_string := _uniformat_selection
+    else
+        new_string := clipboard_get()
+    _uniformat_selection :=
+
     current_case := A_StringCaseSense
+    count := 0
     if !data.case
         StringCaseSense, On
     for replacement, chars in data.letters {
