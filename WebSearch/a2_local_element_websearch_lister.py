@@ -32,6 +32,7 @@ class Draw(DrawCtrl):
         # self.editor.ignore_default_values = False
         self.editor.set_data(self.user_cfg)
         self.editor.data_changed.connect(self.delayed_check)
+        self.editor.set_list_width(self.main.style.scale(120))
         self.main_layout.addWidget(self.editor)
         self.is_expandable_widget = True
 
@@ -41,8 +42,7 @@ class Draw(DrawCtrl):
 
         hotkey_cfg_copy = deepcopy(_DEFAULT_HOTKEY)
         self.hotkey = a2element.hotkey.Draw(self, hotkey_cfg_copy)
-        self.editor.add_row(self.hotkey)
-        self.editor.connect_data_widget(
+        self.editor.add_data_widget(
             'hotkey', self.hotkey, self.hotkey.set_config, self.hotkey.changed, hotkey_cfg_copy
         )
 
