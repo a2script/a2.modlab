@@ -4,9 +4,9 @@
   "maintainer": "ewerybody",
   "maintainer_at": "gmail.com",
   "name": "a2.modlab",
-  "news": "* **UniFormat** is a new module containing `Unicrush` as a sub-set ...",
+  "news": "a2.modlab news:\n* WebSearch: Now with dedicated hotkeys.\n* aTimer: New wip timer module!\n* UniFormat: Got removed! It received a lot of updates here but is now mature\nenough to goto a2.modules!",
   "update_url": "https://github.com/a2script/a2.modlab",
   "url": "https://github.com/a2script/a2.modlab",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "zip_size": 0
 }
