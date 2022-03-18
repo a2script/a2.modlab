@@ -45,6 +45,7 @@ class Draw(DrawCtrl):
         self.editor.add_data_widget(
             'hotkey', self.hotkey, self.hotkey.set_config, self.hotkey.changed, hotkey_cfg_copy
         )
+        self.hotkey.label.setText('Direct Lookup:')
 
     def check(self):
         self.user_cfg.update(self.editor.data)
