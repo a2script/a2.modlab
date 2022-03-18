@@ -1,0 +1,28 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2021 9 14",
+    "description": "\u2022 Set number of minutes,\n\u2022 Set something to \"Run\" (url or program)\n.. that's currently it! Well, this could be huuuge!",
+    "display_name": "",
+    "tags": [],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": true,
+    "functionCode": "aTimer_menu()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "Set up a timer",
+    "multiple": true,
+    "name": "aTimer_Hotkey",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "file": "aTimer.ahk",
+    "typ": "include"
+  }
+]
