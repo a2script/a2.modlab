@@ -1,0 +1,39 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2022 6 9",
+    "description": "Get and compare sha256 hashes from seleceted files in Explorer.",
+    "display_name": "",
+    "tags": [
+      "file",
+      "code",
+      "wip"
+    ],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": true,
+    "functionCode": "hashTest()",
+    "functionMode": 0,
+    "key": [
+      "Alt+Shift+H"
+    ],
+    "keyChange": true,
+    "label": "Make a hash check with selected file",
+    "multiple": true,
+    "name": "hashTest_Hotkey",
+    "scope": [
+      "ahk_class CabinetWClass"
+    ],
+    "scopeChange": true,
+    "scopeMode": 1,
+    "typ": "hotkey"
+  },
+  {
+    "file": "hashTest.ahk",
+    "typ": "include"
+  }
+]
