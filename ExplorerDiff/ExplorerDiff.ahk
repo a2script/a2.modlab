@@ -9,14 +9,16 @@ ExplorerDiff() {
         a2tip("ExplorerDiff: Nothing selected!")
         return
     } else if (files.Length() != 2) {
-        MsgBox, Please select 2 files exactly!
+        msgbox_info("Please select 2 files exactly!", "ExplorerDiff")
+    }
+
+    if (ExplorerDiff_Path == "" OR ExplorerDiff_Path == ".") {
+        msgbox_error("No Diff app set! Please open the dialog and set one!", "ExplorerDiff: ERROR")
+        Return
     }
 
     if !FileExist(ExplorerDiff_Path) {
-        if (ExplorerDiff_Path == "")
-            MsgBox, No Diff app set! Please open the dialog and set one!
-        else
-            MsgBox, Unable to find set diff app! The path seems to be invalid!`n`n %ExplorerDiff_Path%`n??
+        msgbox_error("Unable to find set diff app! The path seems to be invalid!`n`n " ExplorerDiff_Path "`n??", "ExplorerDiff: ERROR")
         Return
     }
 
