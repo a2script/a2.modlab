@@ -1,0 +1,43 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2022 10 7",
+    "description": "Hotkeys for power-management functions like shutdown computer, monitor stand-by, start screensaver and such.",
+    "display_name": "",
+    "tags": [],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "PowerControl_DisplayOff()",
+    "functionMode": 0,
+    "key": [
+      "Win+F2"
+    ],
+    "keyChange": true,
+    "label": "Turn off the Display",
+    "multiple": true,
+    "name": "PowerControl_Hotkey",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "file": "PowerControl.ahk",
+    "typ": "include"
+  },
+  {
+    "decimals": 1,
+    "label": "Display turn off delay:",
+    "max": 100.0,
+    "min": 0.2,
+    "name": "PowerControl_DisplayOffTimeout",
+    "slider": true,
+    "step_len": 1.0,
+    "suffix": "s",
+    "typ": "number",
+    "value": 0.5
+  }
+]
