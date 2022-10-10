@@ -24,8 +24,10 @@ PowerControl_DisplayOff() {
 
     If (this_key <> Chr(27) OR ErrorLevel == "Timeout")
     {
+        ; See: https://www.autohotkey.com/docs/commands/PostMessage.htm#Examples
         ; 0x0112 = WM_SYSCOMMAND
         ; 0xF170 = SC_MONITORPOWER
-        SendMessage, 0x112, 0xF170, 1,, ahk_class Progman
+        ; 2 is "turn-off" and 1 is apparently low-power (can't confirm tho)
+        SendMessage, 0x112, 0xF170, 2,, ahk_class Progman
     }
 }

@@ -30,11 +30,11 @@
   },
   {
     "decimals": 1,
-    "label": "Display turn off delay:",
+    "label": "Display turn off delay (There needs to be some minimum time):",
     "max": 100.0,
     "min": 0.2,
     "name": "PowerControl_DisplayOffTimeout",
-    "slider": true,
+    "slider": false,
     "step_len": 1.0,
     "suffix": "s",
     "typ": "number",
