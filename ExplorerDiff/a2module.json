@@ -2,7 +2,7 @@
   {
     "author": "eric",
     "date": "2022 2 2",
-    "description": "Easier file diffing in the Windows Explorer.\nSelect 2 files, Ctrl+D: tell if files are identical already without opening your diff tool. Select one file in Explorer, have another selected in another Explorer window: Offer to diff these right away.",
+    "description": "Easier file diffing in the Windows Explorer.\nSelect 2 files, Ctrl+D: tell if files are identical already without opening your diff tool.\nOr select one file or folder here and wait to select another there...",
     "display_name": "",
     "tags": [
       "file",
@@ -11,10 +11,10 @@
     ],
     "typ": "nfo",
     "url": "",
-    "version": "0.2"
+    "version": "0.3"
   },
   {
-    "disablable": true,
+    "disablable": false,
     "enabled": true,
     "functionCode": "ExplorerDiff()",
     "functionMode": 0,

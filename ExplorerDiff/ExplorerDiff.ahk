@@ -1,26 +1,94 @@
 ; ExplorerDiff - ExplorerDiff.ahk
 ; author: teric
 ; created: 2022 2 2
+global _ExplorerDiff_WaitForPath
+
 
 ExplorerDiff() {
-    files := explorer_get_selected()
-
-    if (!files.Length()) {
-        a2tip("ExplorerDiff: Nothing selected!")
-        return
-    } else if (files.Length() != 2) {
-        MsgBox, Please select 2 files exactly!
-        Return
-    }
+    paths := explorer_get_selected()
 
     if !FileExist(ExplorerDiff_Path) {
         if (ExplorerDiff_Path == "")
-            MsgBox, No Diff app set! Please open the dialog and set one!
+            msgbox_error("No Diff app set! Please open the dialog and set one!"
+                , "ExplorerDiff: No Diff app")
         else
-            MsgBox, Unable to find set diff app! The path seems to be invalid!`n`n %ExplorerDiff_Path%`n??
+            msgbox_error("Unable to find set diff app! The path seems to be invalid!`n`n" ExplorerDiff_Path "`n??"
+                , "ExplorerDiff: Diff app path invalid")
         Return
     }
 
+    if (paths.Length() == 2) {
+        _ExplorerDiff(paths)
+        Return
+    }
+
+    if (!paths.Length())
+        paths.Push(explorer_get_path())
+
+    if (paths.Length() == 1) {
+        if (_ExplorerDiff_WaitForPath == paths[1])
+            Return
+
+        if (_ExplorerDiff_WaitForPath) {
+            _ExplorerDiff([_ExplorerDiff_WaitForPath, paths[1]])
+            Return
+        }
+
+        _ExplorerDiff_WaitForPath := paths[1]
+        _ExplorerDiff_Wait()
+        Return
+    }
+
+    msgbox_error("Please select 2 files OR 2 folders exactly!"
+        , "ExplorerDiff: Too many paths!")
+}
+
+_ExplorerDiff(files) {
+    global _ExplorerDiff_WaitForPath
+    _ExplorerDiff_WaitForPath := ""
+    if (path_is_dir(files[1]) AND path_is_dir(files[2])) {
+        ExplorerDiff_Run(files)
+        Return
+    }
+    if (path_is_file(files[1]) AND path_is_file(files[2])) {
+        ExplorerDiff_Files(files)
+        Return
+    }
+
+    msgbox_error("Please select 2 files OR 2 folders exactly!"
+        , "ExplorerDiff: File/Folder Mismatch")
+    Return
+}
+
+
+_ExplorerDiff_Wait() {
+    global _ExplorerDiff_WaitForPath
+    Sleep, 300
+
+    SetTimer, _ExplorerDiff_Wait_Call, 30
+
+    _ExplorerDiff_Wait_Call:
+        if (GetKeyState("Escape", "p") == "D") {
+            a2tip("ExplorerDiff: Escaped")
+            _ExplorerDiff_WaitForPath := ""
+        }
+
+        if (!_ExplorerDiff_WaitForPath) {
+            a2tip()
+            SetTimer, _ExplorerDiff_Wait_Call, Off
+            Return
+        }
+
+        if path_is_dir(_ExplorerDiff_WaitForPath)
+            mode := "Folder"
+        else
+            mode := "File"
+        a2tip("ExplorerDiff: Selected " mode ":`n" _ExplorerDiff_WaitForPath "`nSelect another " mode " and press " A_ThisHotkey " again.`nOr hit Escape.")
+    Return
+}
+
+
+ExplorerDiff_Files(files) {
     file1 := files[1], file2 := files[2]
     size1 := FileGetSize(file1), size2 := FileGetSize(file2)
 
@@ -39,13 +107,13 @@ ExplorerDiff() {
 
     a2tip("ExplorerDiff: reading file 1 ...", 60)
     FileRead, contents, %file1%
-    lines1 :=   []
+    lines1 := []
     Loop, parse, contents, `n
         lines1.Insert(A_LoopField)
 
     a2tip("ExplorerDiff: reading file 2 ...", 60)
     FileRead, contents, %file2%
-    lines2 :=   []
+    lines2 := []
     Loop, parse, contents, `n
         lines2.Insert(A_LoopField)
     contents :=
