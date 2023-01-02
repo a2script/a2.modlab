@@ -99,6 +99,9 @@ ExplorerDiff_Files(files) {
         Return
     }
 
+    if (!ExplorerDiff_MaxSize)
+        ExplorerDiff_MaxSize := 1.0
+
     if (size1 > (ExplorerDiff_MaxSize * 1024 * 1024)) {
         a2tip("ExplorerDiff: Files bigger than " ExplorerDiff_MaxSize " MB ... ")
         ExplorerDiff_Run(files)

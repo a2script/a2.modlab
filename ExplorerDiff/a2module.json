@@ -51,10 +51,10 @@
     "decimals": 1,
     "label": "Always use diff app if files larger than:",
     "max": 100.0,
-    "min": 1.0,
+    "min": 0.1,
     "name": "ExplorerDiff_MaxSize",
     "slider": false,
-    "step_len": 1.0,
+    "step_len": 0.1,
     "suffix": "MB",
     "typ": "number",
     "value": 1.0
