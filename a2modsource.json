@@ -1,12 +1,13 @@
 ﻿{
   "description": "Experimental a2 modules collection.",
   "display_name": "a2.ModLab",
+  "main_branch": "main",
   "maintainer": "ewerybody",
   "maintainer_at": "gmail.com",
   "name": "a2.modlab",
-  "news": "a2.modlab news:\n* WebSearch: Now with dedicated hotkeys.\n* aTimer: New wip timer module!\n* UniFormat: Got removed! It received a lot of updates here but is now mature\nenough to goto a2.modules!",
+  "news": "* new WIP module `PowerControl`\n* PowerControl: Added missing functionality\n* ExplorerDiff: Was mature enough, moved to a2.modules",
   "update_url": "https://github.com/a2script/a2.modlab",
   "url": "https://github.com/a2script/a2.modlab",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "zip_size": 0
 }
