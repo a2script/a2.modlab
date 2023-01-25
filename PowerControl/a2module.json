@@ -7,7 +7,11 @@
     "tags": [],
     "typ": "nfo",
     "url": "",
-    "version": "0.1"
+    "version": "0.2.0"
+  },
+  {
+    "file": "PowerControl.ahk",
+    "typ": "include"
   },
   {
     "disablable": true,
@@ -25,10 +29,6 @@
     "typ": "hotkey"
   },
   {
-    "file": "PowerControl.ahk",
-    "typ": "include"
-  },
-  {
     "decimals": 1,
     "label": "Display turn off delay (There needs to be some minimum time):",
     "max": 100.0,
@@ -39,5 +39,89 @@
     "suffix": "s",
     "typ": "number",
     "value": 0.5
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "PowerControl_ShutDown()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "Shut down the system",
+    "multiple": true,
+    "name": "PowerControl_ShutDown",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "PowerControl_Reboot()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "Restart the system",
+    "multiple": true,
+    "name": "PowerControl_Reboot",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "PowerControl_Logoff()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "Log off the system",
+    "multiple": true,
+    "name": "PowerControl_Logoff",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "PowerControl_Standby()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "Put the system to Sleep/Standby mode",
+    "multiple": true,
+    "name": "PowerControl_Standby",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "PowerControl_Hibernate()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "Put the system in Hibernate mode",
+    "multiple": true,
+    "name": "PowerControl_Hibernate",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "PowerControl_Screensaver()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "Turn on the Screensaver",
+    "multiple": true,
+    "name": "PowerControl_Screensaver",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "PowerControl_LockWorkStation()",
+    "functionMode": 0,
+    "keyChange": true,
+    "label": "Lock the workstation",
+    "multiple": true,
+    "name": "PowerControl_LockWorkStation",
+    "scopeChange": true,
+    "typ": "hotkey"
   }
 ]
