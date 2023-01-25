@@ -6,8 +6,6 @@ import json
 import pprint
 from functools import partial
 
-from PySide2.QtCore import Qt
-
 from a2qt import QtWidgets, QtGui
 
 import a2ahk
@@ -15,8 +13,7 @@ import a2core
 import a2ctrl
 import a2util
 from a2element import DrawCtrl, EditCtrl
-from a2widget import a2item_editor, a2button_field, a2coords_field, a2input_dialog
-
+from a2widget import a2item_editor, a2button_field, a2coords_field, a2input_dialog, a2combo
 
 DEFAULT_TITLE = '*'
 DEFAULT_NAME = 'Layout'
@@ -195,7 +192,7 @@ class Draw(DrawCtrl):
         self.main_layout = QtWidgets.QVBoxLayout(self)
         self.main_layout.setContentsMargins(0, 0, 0, 0)
 
-        self.layouts_combo = QtWidgets.QComboBox()
+        self.layouts_combo = a2combo.A2Combo()
         # size_label = QtWidgets.QLabel('Virtual Desktop Size:')
         # size_layout.addWidget(size_label)
         layouts_layout = QtWidgets.QHBoxLayout()
@@ -286,7 +283,9 @@ class Draw(DrawCtrl):
             # pprint.pprint(self.user_cfg)
 
         if '' in self.user_cfg.keys():
-            log.warn('Empty Layout name in config! Removing ...\n%s', pprint.pformat(self.user_cfg['']))
+            log.warn(
+                'Empty Layout name in config! Removing ...\n%s', pprint.pformat(self.user_cfg[''])
+            )
             del self.user_cfg['']
             self.set_user_value(self.user_cfg)
 
@@ -367,5 +366,9 @@ def get_settings(module_key, cfg, db_dict, user_cfg):
                 ]
             )
 
-        window_dict[layout_name] = {'size': this_dict['size'], 'setups': window_list, 'icons': this_dict.get('icons', False)}
+        window_dict[layout_name] = {
+            'size': this_dict['size'],
+            'setups': window_list,
+            'icons': this_dict.get('icons', False),
+        }
     db_dict['variables']['SessionRestore_List'] = window_dict
