@@ -167,6 +167,8 @@ sessionrestore_handle_session_change(p_w, p_l, p_m, p_hw) {
         ;sessionrestore_session_save()
     }
     else if ( p_w = WTS_SESSION_UNLOCK ) {
+        a2log_info("Unlocked. Calling restore ...", "SessionRestore")
+        Sleep, 1000
         sessionrestore_session_restore()
     }
 }
