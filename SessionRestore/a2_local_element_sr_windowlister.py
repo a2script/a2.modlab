@@ -228,7 +228,7 @@ class Draw(DrawCtrl):
         msg = MSG_ADD % self.get_virtual_screen_size()
         name = a2util.get_next_free_number(DEFAULT_NAME + ' 1', self.win_layouts, ' ')
         dialog = a2input_dialog.A2InputDialog(self, ADD_LAYOUT, self._add_layout_check, name, msg)
-        dialog.okayed.connect(self._on_add_layout)
+        dialog.yielded.connect(self._on_add_layout)
         dialog.exec_()
 
     def _add_layout_check(self, name):
