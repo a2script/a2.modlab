@@ -25,7 +25,8 @@ sessionrestore_session_restore() {
 
     if (layouts.Length() < 1) {
         nope_msg := "No layouts for this Screen size (" this_vs_size ")!"
-        MsgBox, SessionRestore, %nope_msg%
+        ; MsgBox, SessionRestore, %nope_msg%
+        a2tip(nope_msg)
         Return
     }
 
@@ -56,17 +57,15 @@ _sessionrestore_session_restore(layout_name) {
     global SessionRestore_List
     this_vs_size_list := SessionRestore_List[layout_name]["setups"]
 
-    Progress, b h100 w500 c00, preparing ..., Restoring your session ...,
-
     ; first window list. Might NOT have our subwindows excluded
     window_list := sessionrestore_get_window_list()
     minimzed_windows := []
     for windex, win in window_list {
 
-        ; update progress bar
+        ; update progress
         iprogress := (A_Index / window_list.MaxIndex()) * 100.0
         progress_text := "Preparing ...`n" A_Index "/" window_list.MaxIndex() " " win.proc_name
-        Progress, %iprogress%, %progress_text%
+        a2tip(progress_text ":" iprogress)
 
         for sindex, swin in this_vs_size_list {
             if (swin[1] != win.proc_name)
@@ -83,11 +82,11 @@ _sessionrestore_session_restore(layout_name) {
     window_list := sessionrestore_get_window_list()
     for windex, win in window_list {
 
-        ; update progress bar
+        ; update progress
         iprogress := (A_Index / window_list.MaxIndex()) * 100.0
         progress_text := "Arranging ...`n" A_Index "/" window_list.MaxIndex() " " win.proc_name
-        ;sleep, 10
-        Progress, %iprogress%, %progress_text%
+        ; sleep, 10
+        a2tip(progress_text ":" iprogress)
 
         for sindex, swin in this_vs_size_list {
             if (swin[1] != win.proc_name)
@@ -120,7 +119,6 @@ _sessionrestore_session_restore(layout_name) {
 
     ; to make it look like it finished correctly
     Sleep, 250
-    Progress, Off
 }
 
 _sessionrestore_class_match(win_class, match_string) {
