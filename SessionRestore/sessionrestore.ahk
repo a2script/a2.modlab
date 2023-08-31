@@ -56,23 +56,26 @@ _sessionrestore_nop() {
 _sessionrestore_session_restore(layout_name) {
     global SessionRestore_List
     this_vs_size_list := SessionRestore_List[layout_name]["setups"]
+    active_id := WinActive("A")
+
+    a2tip("SessionRestore ...")
 
     ; first window list. Might NOT have our subwindows excluded
     window_list := sessionrestore_get_window_list()
-    minimzed_windows := []
+
     for windex, win in window_list {
 
-        ; update progress
-        iprogress := (A_Index / window_list.MaxIndex()) * 100.0
-        progress_text := "Preparing ...`n" A_Index "/" window_list.MaxIndex() " " win.proc_name
-        a2tip(progress_text ":" iprogress)
+        if (SessionRestore_ShowProgress) {
+            iprogress := (A_Index / window_list.MaxIndex()) * 100.0
+            progress_text := "Preparing ...`n" A_Index "/" window_list.MaxIndex() " " win.proc_name
+            a2tip(progress_text ":" iprogress)
+        }
 
         for sindex, swin in this_vs_size_list {
             if (swin[1] != win.proc_name)
                 continue
-            if (win.minmax 1= -1)
+            if (win.minmax != -1)
                 continue
-            minimzed_windows.push(win)
             this_id := win.id
             WinRestore, ahk_id %this_id%
         }
@@ -82,11 +85,11 @@ _sessionrestore_session_restore(layout_name) {
     window_list := sessionrestore_get_window_list()
     for windex, win in window_list {
 
-        ; update progress
-        iprogress := (A_Index / window_list.MaxIndex()) * 100.0
-        progress_text := "Arranging ...`n" A_Index "/" window_list.MaxIndex() " " win.proc_name
-        ; sleep, 10
-        a2tip(progress_text ":" iprogress)
+        if (SessionRestore_ShowProgress) {
+            iprogress := (A_Index / window_list.MaxIndex()) * 100.0
+            progress_text := "Arranging ...`n" A_Index "/" window_list.MaxIndex() " " win.proc_name
+            a2tip(progress_text ":" iprogress)
+        }
 
         for sindex, swin in this_vs_size_list {
             if (swin[1] != win.proc_name)
@@ -105,20 +108,8 @@ _sessionrestore_session_restore(layout_name) {
         }
     }
 
-    ;nw := window_list.MaxIndex()
-    ;ns := this_vs_size_list.MaxIndex()
-    ;nm := minimzed_windows.MaxIndex()
-    ;MsgBox nw: %nw%`nns: %ns%`nnm: %nm%
-
-    ;loop % this_vs_size_list.MaxIndex() {
-    ;    win := this_vs_size_list[A_Index]
-    ;    p := win[1]
-    ;    c := win[2]
-    ;MsgBox %A_Index% proc: %p%`nclass: %c%
-    ;}
-
-    ; to make it look like it finished correctly
-    Sleep, 250
+    a2tip("SessionRestore Done!")
+    WinActivate, ahk_id %active_id%
 }
 
 _sessionrestore_class_match(win_class, match_string) {

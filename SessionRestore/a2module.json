@@ -10,7 +10,7 @@
     ],
     "typ": "nfo",
     "url": "",
-    "version": "0.4"
+    "version": "0.5"
   },
   {
     "children": [
@@ -47,6 +47,12 @@
       {
         "label": "Re-Render All Windows",
         "name": "Sessionrestore_Restore_All_Windows",
+        "typ": "check",
+        "value": false
+      },
+      {
+        "label": "Update the tooltip during Restore (a tiny bit slower)",
+        "name": "SessionRestore_ShowProgress",
         "typ": "check",
         "value": false
       }
