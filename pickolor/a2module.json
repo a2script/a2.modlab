@@ -1,0 +1,33 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2023 12 4",
+    "description": "A simple configurable color picker tool.",
+    "display_name": "",
+    "tags": [
+      "window"
+    ],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": true,
+    "functionCode": "pickolor()",
+    "functionMode": 0,
+    "key": [
+      "Win+Shift+C"
+    ],
+    "keyChange": true,
+    "label": "Start picking",
+    "multiple": true,
+    "name": "pickolor_Hotkey",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "file": "pickolor.ahk",
+    "typ": "include"
+  }
+]
