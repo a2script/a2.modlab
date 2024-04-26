@@ -7,11 +7,11 @@ pickolor() {
     _pickolor_count := 100
 
     batch_lines_b4 := A_BatchLines
-    SetBatchLines, 2000
-    CoordMode, Mouse, Screen
-    MouseGetPos, mx, my
-    CoordMode, Pixel, Screen
-    PixelGetColor, _pickolor, %mx%, %my%, RGB
+    SetBatchLines 2000
+    CoordMode "Mouse", "Screen"
+    MouseGetPos &mx, &my
+    CoordMode "Pixel", "Screen"
+    _pickolor := PixelGetColor(mx, my, "RGB")
 
     Gui, New, +Hwnd_pickolor_guid +LastFound +AlwaysOnTop -Caption +ToolWindow +Border
     Gui, Color, %_pickolor%

@@ -6,15 +6,22 @@
 
 
 PowerControl_DisplayOff() {
+    this_key := ""
     If (PowerControl_DisplayOffTimeout > 0)
-    {
+        {
+        eschook := InputHook("V M I L1", "{Esc}")
+        eschook.start()
+        esc := Chr(27)
+
         msg := "Turning off display in " PowerControl_DisplayOffTimeout "..."
-        SplashImage,,b1 cwFFFFc0 FS9 WS700 w400, %msg%
+        ; SplashImage,,b1 cwFFFFc0 FS9 WS700 w400, %msg%
+        a2tip(msg)
         now := A_TickCount
         Loop
         {
-            Input, this_key, V M T%PowerControl_DisplayOffTimeout% I L1
-            If (this_key == Chr(27) OR ErrorLevel == "Timeout" )
+            ; Input, this_key, V M T%PowerControl_DisplayOffTimeout% I L1
+            this_key := eschook.Input
+            If (this_key == esc OR ErrorLevel == "Timeout" )
                 break
 
             If ((A_TickCount - now) / 1000 >= PowerControl_DisplayOffTimeout)
@@ -23,15 +30,16 @@ PowerControl_DisplayOff() {
                 break
             }
         }
-        SplashImage, Off
+        a2tip()
+        ; SplashImage, Off
     }
 
-    If (this_key <> Chr(27) OR ErrorLevel == "Timeout")
+    If (this_key != esc OR ErrorLevel == "Timeout")
     {
         ; See: https://www.autohotkey.com/docs/commands/PostMessage.htm#Examples
         ; 0x0112 = WM_SYSCOMMAND -- 0xF170 = SC_MONITORPOWER
         ; 2 is "turn-off" and 1 is apparently low-power (can't confirm tho)
-        SendMessage, 0x0112, 0xF170, 2,, ahk_class Progman
+        SendMessage 0x0112, 0xF170, 2,, "ahk_class Progman"
     }
 }
 
@@ -41,8 +49,8 @@ PowerControl_DisplayOff() {
 _PowerControl_ShutDown(mode) {
     Loop
     {
-        ShutDown, %mode%
-        Sleep, 3000
+        ShutDown(mode)
+        Sleep 3000
     }
 }
 
@@ -74,7 +82,7 @@ PowerControl_Hibernate() {
 PowerControl_Screensaver() {
     ; https://learn.microsoft.com/en-us/windows/win32/menurc/wm-syscommand#parameters
     ; 0x0112 = WM_SYSCOMMAND -- 0xF140 = SC_SCREENSAVE
-    SendMessage, 0x0112, 0xF140, 0,, ahk_class Progman
+    SendMessage 0x0112, 0xF140, 0,, "ahk_class Progman"
 }
 
 ; This doesn't work well, It turns the Screen back on.
@@ -85,5 +93,5 @@ PowerControl_Screensaver() {
 ; }
 
 PowerControl_LockWorkStation() {
-	Run, rundll32 user32`,LockWorkStation
+	Run "rundll32 user32,LockWorkStation"
 }
