@@ -6,38 +6,34 @@ pickolor() {
     max_draw_every := 3
     _pickolor_count := 100
 
-    batch_lines_b4 := A_BatchLines
-    SetBatchLines 2000
     CoordMode "Mouse", "Screen"
     MouseGetPos &mx, &my
     CoordMode "Pixel", "Screen"
     _pickolor := PixelGetColor(mx, my, "RGB")
 
-    Gui, New, +Hwnd_pickolor_guid +LastFound +AlwaysOnTop -Caption +ToolWindow +Border
-    Gui, Color, %_pickolor%
-    Gui, Font, s21 Bold, Consolas
-    Gui, Add, Text, +Hwnd_pickolor_label, #AABBCC
-    Gui, Show, x%mx% y%my% NoActivate
+    pickolor_gui := Gui("+LastFound +AlwaysOnTop -Caption +ToolWindow +Border")
+    pickolor_gui.BackColor := _pickolor
+    pickolor_gui.SetFont("s21 Bold", "Consolas")
+    pickolor_text := pickolor_gui.Add("Text",, "#AABBCC")
+    pickolor_gui.Show("x" mx " y" my " NoActivate")
 
     ; cursor_set_cross()
     ; SetTimer, _pickolor_callback, 10
-    CoordMode, Mouse, Screen
+    CoordMode "Mouse", "Screen"
 
     Loop
     {
     ; _pickolor_callback:
-        GetKeyState, pcl_escape, Escape, P
-        if (pcl_escape == "D") {
+        if (GetKeyState("Escape")) {
             ; SetTimer, _pickolor_callback, Off
-            SetBatchLines, %batch_lines_b4%
-            Gui %_pickolor_guid%:Destroy
+            pickolor_gui.Destroy()
             a2tip("pickolor: Escaped")
             cursor_reset()
             Return
         }
 
-        MouseGetPos, mx, my
-        mon_nfo := MDMF_GetInfo(MDMF_FromPoint(mx, my))
+        MouseGetPos &mx, &my
+        mon_nfo := MDMF_GetInfo(MDMF_FromPoint(&mx, &my))
         ; a2tip("mouse: " mx " " my "`nmon nr: " mon_nfo.Num " " mon_nfo.name "`nltrb: " mon_nfo.left " " mon_nfo.top " " mon_nfo.right " " mon_nfo.bottom "WA:" mon_nfo.WAleft " " mon_nfo.WAtop " " mon_nfo.WAright " " mon_nfo.WAbottom)
         if (mx > (mon_nfo.right - 300))
             wx := mx - 230
@@ -48,20 +44,18 @@ pickolor() {
             wy := my - 100
         else
             wy := my + 20
-        WinMove, ahk_id %_pickolor_guid%,, %wx%, %wy%
+        WinMove(wx, wy,,, "ahk_id " pickolor_gui.hwnd)
 
         _pickolor_count += 1
         if (_pickolor_count < max_draw_every)
             continue
 
         _pickolor_count := 0
-        PixelGetColor, _pickolor, %mx%, %my%, RGB
+        _pickolor := PixelGetColor(mx, my, "RGB")
 
-        GetKeyState, pcl_lbutton, LButton, P
-        if (pcl_lbutton == "D") {
+        if GetKeyState("LButton") {
             ; SetTimer, _pickolor_callback, Off
-            SetBatchLines, %batch_lines_b4%
-            Gui %_pickolor_guid%:Destroy
+            pickolor_gui.Destroy()
             cursor_reset()
             _pickolor_picked(_pickolor)
             Return
@@ -74,13 +68,12 @@ pickolor() {
         brightness := (rgb_list[1] + rgb_list[2] + rgb_list[3]) / 3
 
         if (brightness > 100.0)
-            GuiControl, +cBlack, %_pickolor_label%
+            pickolor_text.SetFont("cBlack")
         else
-            GuiControl, +cWhite, %_pickolor_label%
+            pickolor_text.SetFont("cWhite")
 
-        txt := "#" hex_list[1] hex_list[2] hex_list[3]
-        GuiControl,, %_pickolor_label%, %txt%
-        Gui, %_pickolor_guid%:Color, %_pickolor%
+        pickolor_text.Text := "#" hex_list[1] hex_list[2] hex_list[3]
+        pickolor_gui.BackColor := _pickolor
     }
 }
 
@@ -93,11 +86,11 @@ _pickolor_picked(color) {
     rgb_label := "rgb " rgb_list[1] "," rgb_list[2] "," rgb_list[3]
     float_label := "float " float_list[1] "," float_list[2] "," float_list[3]
 
-    Menu, pickolorMenu, Add, %hex_label%, _pickolor_Hex
-    Menu, pickolorMenu, Add, %rgb_label%, _pickolor_255
-    Menu, pickolorMenu, Add, %float_label%, _pickolor_Float
-    Menu, pickolorMenu, Show
-    Menu, pickolorMenu, DeleteAll
+    pickolor_menu := Menu()
+    pickolor_menu.Add(hex_label, _pickolor_Hex)
+    pickolor_menu.Add(rgb_label, _pickolor_255)
+    pickolor_menu.Add(float_label, _pickolor_Float)
+    pickolor_menu.Show()
 }
 
 _pickolor_split_hex(color) {
@@ -105,20 +98,20 @@ _pickolor_split_hex(color) {
     Return hex_list
 }
 
-_pickolor_split_rgb(byref hex_list) {
+_pickolor_split_rgb(hex_list) {
     rgb_list := [_pickolor_hex_to_int(hex_list[1])
     , _pickolor_hex_to_int(hex_list[2])
     , _pickolor_hex_to_int(hex_list[3])]
     Return rgb_list
 }
 
-_pickolor_hex_to_int(byref Hex) {
+_pickolor_hex_to_int(Hex) {
     Int := "0x" . Hex
     Int += 0
     Return Int
 }
 
-_pickolor_split_float(byref rgb_list) {
+_pickolor_split_float(rgb_list) {
     float_list := [Format("{1:0.3f}", rgb_list[1] / 255)
     ,Format("{1:0.3f}", rgb_list[2] / 255)
     ,Format("{1:0.3f}", rgb_list[3] / 255)]
@@ -126,26 +119,26 @@ _pickolor_split_float(byref rgb_list) {
 }
 
 
-_pickolor_Hex() {
+_pickolor_Hex(*) {
     global _pickolor
     hex_list := _pickolor_split_hex(_pickolor)
     hex_label := "#" hex_list[1] hex_list[2] hex_list[3]
     a2tip("PiCked: HEX " hex_label)
-    Clipboard := hex_label
+    A_Clipboard := hex_label
 }
 
-_pickolor_255() {
+_pickolor_255(*) {
     global _pickolor
     rgb_list := _pickolor_split_rgb(_pickolor_split_hex(_pickolor))
     rgb_label := rgb_list[1] "," rgb_list[2] "," rgb_list[3]
     a2tip("PiCked: rgb 255 " rgb_label)
-    Clipboard := rgb_label
+    A_Clipboard := rgb_label
 }
 
-_pickolor_Float() {
+_pickolor_Float(*) {
     global _pickolor
     float_list := _pickolor_split_float(_pickolor_split_rgb(_pickolor_split_hex(_pickolor)))
     float_label := float_list[1] "," float_list[2] "," float_list[3]
     a2tip("PiCked: rgb 0.0-1.0 " float_label)
-    Clipboard := float_label
+    A_Clipboard := float_label
 }
