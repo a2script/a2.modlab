@@ -17,15 +17,10 @@ pickolor() {
     pickolor_text := pickolor_gui.Add("Text",, "#AABBCC")
     pickolor_gui.Show("x" mx " y" my " NoActivate")
 
-    ; cursor_set_cross()
-    ; SetTimer, _pickolor_callback, 10
     CoordMode "Mouse", "Screen"
 
-    Loop
-    {
-    ; _pickolor_callback:
+    Loop {
         if (GetKeyState("Escape")) {
-            ; SetTimer, _pickolor_callback, Off
             pickolor_gui.Destroy()
             a2tip("pickolor: Escaped")
             cursor_reset()
@@ -54,7 +49,6 @@ pickolor() {
         _pickolor := PixelGetColor(mx, my, "RGB")
 
         if GetKeyState("LButton") {
-            ; SetTimer, _pickolor_callback, Off
             pickolor_gui.Destroy()
             cursor_reset()
             _pickolor_picked(_pickolor)
@@ -74,6 +68,7 @@ pickolor() {
 
         pickolor_text.Text := "#" hex_list[1] hex_list[2] hex_list[3]
         pickolor_gui.BackColor := _pickolor
+        Sleep 50
     }
 }
 
