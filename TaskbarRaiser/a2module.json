@@ -3,12 +3,13 @@
     "author": "eric",
     "date": "2020 7 30",
     "description": "Making sure a hidden task bar pops up when a foreground/fullscreen app prevents it.",
+    "display_name": "",
     "tags": [
       "window"
     ],
     "typ": "nfo",
     "url": "",
-    "version": "0.1"
+    "version": "0.2"
   },
   {
     "code": "taskbar_raiser_init()",
