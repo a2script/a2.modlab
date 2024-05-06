@@ -6,41 +6,33 @@
 
 
 PowerControl_DisplayOff() {
-    this_key := ""
-    If (PowerControl_DisplayOffTimeout > 0)
-        {
-        eschook := InputHook("V M I L1", "{Esc}")
-        eschook.start()
-        esc := Chr(27)
+    a2tip("Turning off display in " round(PowerControl_DisplayOffTimeout, 1) " seconds ...", PowerControl_DisplayOffTimeout)
 
-        msg := "Turning off display in " PowerControl_DisplayOffTimeout "..."
-        ; SplashImage,,b1 cwFFFFc0 FS9 WS700 w400, %msg%
-        a2tip(msg)
-        now := A_TickCount
-        Loop
-        {
-            ; Input, this_key, V M T%PowerControl_DisplayOffTimeout% I L1
-            this_key := eschook.Input
-            If (this_key == esc OR ErrorLevel == "Timeout" )
-                break
+    eschook := InputHook("V M I L1", "{Esc}")
+    eschook.start()
+    esc := Chr(27)
 
-            If ((A_TickCount - now) / 1000 >= PowerControl_DisplayOffTimeout)
-            {
-                ErrorLevel := "Timeout"
-                break
-            }
-        }
-        a2tip()
-        ; SplashImage, Off
-    }
-
-    If (this_key != esc OR ErrorLevel == "Timeout")
+    now := A_TickCount
+    Loop
     {
-        ; See: https://www.autohotkey.com/docs/commands/PostMessage.htm#Examples
-        ; 0x0112 = WM_SYSCOMMAND -- 0xF170 = SC_MONITORPOWER
-        ; 2 is "turn-off" and 1 is apparently low-power (can't confirm tho)
-        SendMessage 0x0112, 0xF170, 2,, "ahk_class Progman"
+        If (eschook.Input == esc OR eschook.EndReason == "EndKey") {
+            eschook.Stop()
+            a2tip()
+            return
+        }
+
+        If ((A_TickCount - now) / 1000 >= PowerControl_DisplayOffTimeout)
+        {
+            eschook.Stop()
+            break
+        }
     }
+    a2tip()
+
+    ; See: https://www.autohotkey.com/docs/commands/PostMessage.htm#Examples
+    ; 0x0112 = WM_SYSCOMMAND -- 0xF170 = SC_MONITORPOWER
+    ; 2 is "turn-off" and 1 is apparently low-power (can't confirm tho)
+    SendMessage 0x0112, 0xF170, 2,, "ahk_class Progman"
 }
 
 
