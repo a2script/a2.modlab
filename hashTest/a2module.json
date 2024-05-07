@@ -2,7 +2,7 @@
   {
     "author": "eric",
     "date": "2022 6 9",
-    "description": "Get and compare sha256 hashes from seleceted files in Explorer.",
+    "description": "Get and compare sha256 hashes from selected files in Explorer.",
     "display_name": "",
     "tags": [
       "file",
