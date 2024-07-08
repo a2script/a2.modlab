@@ -1,0 +1,97 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2024 5 25",
+    "description": "WIP Windows Explorer experiment testbed.",
+    "display_name": "",
+    "tags": [
+      "file"
+    ],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "ExplorerHotkeys_NavOnOff()",
+    "functionMode": 0,
+    "functionSend": "Send '{Alt}vn{Enter}'",
+    "functionURL": "Run ",
+    "key": "Alt+N",
+    "keyChange": true,
+    "label": "Toggle Navigation Panel (Experimental)",
+    "mode": "ahk",
+    "multiple": true,
+    "name": "ExplorerHotkeys_NavOnOff",
+    "scope": [
+      "ahk_class CabinetWClass"
+    ],
+    "scopeChange": true,
+    "scopeMode": 1,
+    "typ": "hotkey"
+  },
+  {
+    "file": "navOnOff.ahk",
+    "typ": "include"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "ftpExplorerCopy()",
+    "functionMode": 0,
+    "key": "Alt+V",
+    "keyChange": true,
+    "label": "from FTP-Explorer get http-url into Clipboard",
+    "mode": "ahk",
+    "multiple": true,
+    "name": "ftpExplorerCopyHotkey",
+    "scope": [
+      "ahk_class CabinetWClass"
+    ],
+    "scopeChange": true,
+    "scopeMode": 1,
+    "typ": "hotkey"
+  },
+  {
+    "file": "ftpExplorerCopy.ahk",
+    "typ": "include"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "a2tip(\"Explorer Up\")\nSend \"!{Up}\"",
+    "functionMode": 0,
+    "functionSend": "SendRaw 'a2tip(\"!{Up}\")\nSend, !{Up}'",
+    "key": "XButton1",
+    "keyChange": true,
+    "label": "Go \"Up\" instead of Back",
+    "multiple": true,
+    "name": "ExplorerHotkeys_BackHotkey",
+    "scope": [
+      "ahk_class CabinetWClass ahk_exe explorer.exe"
+    ],
+    "scopeChange": true,
+    "scopeMode": 1,
+    "typ": "hotkey"
+  },
+  {
+    "disablable": true,
+    "enabled": false,
+    "functionCode": "ExplorerHotkeys_ReloadAll()",
+    "functionMode": 0,
+    "key": [
+      "Win+Shift+E"
+    ],
+    "keyChange": true,
+    "label": "Reload Explorer process & windows",
+    "multiple": true,
+    "name": "ExplorerHotkeys_ReloadAllHotkey",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "file": "ExplorerReload.ahk",
+    "typ": "include"
+  }
+]
