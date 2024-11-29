@@ -26,7 +26,16 @@ taskbar_raiser_check() {
             Return
     }
 
-    taskbar_id := WinGetID("ahk_class Shell_TrayWnd ahk_exe Explorer.EXE")
-    if (id_under_cursor != taskbar_id)
-        WinActivate("ahk_id " . taskbar_id)
+    tb_signature := "ahk_class Shell_TrayWnd ahk_exe explorer.exe"
+    Loop 10 {
+        try {
+            WinActivate(tb_signature)
+            return
+        }
+        catch TargetError {
+            Sleep(100)
+        }
+    }
+
+    a2tip('Could NOT raise taskbar after 10 tries :/`nsignature: " . tb_signature . "')
 }
