@@ -9,7 +9,7 @@
     ],
     "typ": "nfo",
     "url": "",
-    "version": "0.3"
+    "version": "0.4"
   },
   {
     "code": "taskbar_raiser_init()",
@@ -46,6 +46,12 @@
   {
     "label": "Ignore on Remote Desktop Connections",
     "name": "TaskbarRaiser_CheckRDC",
+    "typ": "check",
+    "value": false
+  },
+  {
+    "label": "Show Tooltip when triggered",
+    "name": "TaskbarRaiser_CheckTip",
     "typ": "check",
     "value": false
   }
