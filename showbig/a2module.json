@@ -1,0 +1,33 @@
+﻿[
+  {
+    "author": "eric",
+    "date": "2025 3 2",
+    "description": "Zoom in on some selected text. Escape to cancel.",
+    "display_name": "ShowBig",
+    "tags": [
+      "text"
+    ],
+    "typ": "nfo",
+    "url": "",
+    "version": "0.1"
+  },
+  {
+    "disablable": true,
+    "enabled": true,
+    "functionCode": "showbig()",
+    "functionMode": 0,
+    "key": [
+      "Alt+Shift+B"
+    ],
+    "keyChange": true,
+    "label": "Zoom in on text selection",
+    "multiple": true,
+    "name": "showbig_Hotkey",
+    "scopeChange": true,
+    "typ": "hotkey"
+  },
+  {
+    "file": "showbig.ahk",
+    "typ": "include"
+  }
+]
