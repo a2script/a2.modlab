@@ -9,25 +9,25 @@
     ],
     "typ": "nfo",
     "url": "",
-    "version": "0.2"
+    "version": "0.2.1"
   },
   {
     "disablable": true,
     "enabled": true,
-    "functionCode": "websearch()",
+    "functionCode": "WebSearch()",
     "functionMode": 0,
     "key": [
       "Win+W"
     ],
     "keyChange": true,
-    "label": "Call the WebSeach menu",
+    "label": "Call the WebSearch menu",
     "multiple": true,
     "name": "WebSearch_Hotkey",
     "scopeChange": true,
     "typ": "hotkey"
   },
   {
-    "file": "websearch.ahk",
+    "file": "WebSearch.ahk",
     "typ": "include"
   },
   {

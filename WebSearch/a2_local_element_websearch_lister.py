@@ -2,7 +2,7 @@ from copy import deepcopy
 
 import a2ctrl
 import a2element.hotkey
-from a2qt import QtWidgets
+from PySide6 import QtWidgets
 from a2element import DrawCtrl, EditCtrl
 from a2widget import a2item_editor, a2text_field
 
