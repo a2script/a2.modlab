@@ -6,7 +6,7 @@ import json
 import pprint
 from functools import partial
 
-from a2qt import QtWidgets, QtGui
+from PySide6 import QtWidgets, QtGui
 
 import a2ahk
 import a2core
