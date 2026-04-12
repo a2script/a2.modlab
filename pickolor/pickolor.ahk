@@ -1,9 +1,9 @@
 ﻿; Pickolor color picker script
 #Include <string>
+#Include <i18n>
 
 pickolor() {
     global _pickolor, _pickolor_l_click, _pickolor_escape
-
     ; to ease the amount of redraws let's not draw every loop:
     max_draw_every := 3
     _pickolor_count := 3
@@ -94,12 +94,22 @@ _pickolor_picked(color) {
     rgb_label := "rgb " rgb_list[1] "," rgb_list[2] "," rgb_list[3]
     palette_label := "palette " rgb_list[1] " " rgb_list[2] " " rgb_list[3]
     float_label := "float " float_list[1] "," float_list[2] "," float_list[3]
+    t := i18n_domain('general')
 
     pickolor_menu := Menu()
-    pickolor_menu.Add(hex_label, _pickolor_Hex)
-    pickolor_menu.Add(rgb_label, (*) => _pickolor_255(","))
-    pickolor_menu.Add(palette_label, (*) => _pickolor_255(" "))
-    pickolor_menu.Add(float_label, _pickolor_Float)
+    for label, func in Map(
+        hex_label, _pickolor_Hex,
+        rgb_label, (*) => _pickolor_255(","),
+        palette_label, (*) => _pickolor_255(" "),
+        float_label, _pickolor_Float
+    ) {
+        pickolor_menu.Add(label, func)
+        pickolor_menu.SetIcon(label, A2Icons.copy)
+    }
+
+    pickolor_menu.Add()
+    pickolor_menu.Add(t['cancel'], (*) => 0)
+    pickolor_menu.SetIcon(t['cancel'], A2Icons.clear)
     pickolor_menu.Show()
 }
 
