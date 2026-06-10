@@ -1,3 +1,4 @@
+#include <a2dlg>
 #include sessionrestore_get_window_list.ahk
 
 sessionrestore_session_restore() {
@@ -137,13 +138,13 @@ sessionrestore_init() {
     hw_ahk := _sessionrestore_FindWindowEx(0, 0, "AutoHotkey", a_ScriptFullPath " - AutoHotkey v" a_AhkVersion)
 
     WM_WTSSESSION_CHANGE := 0x02B1
-    OnMessage(WM_WTSSESSION_CHANGE, "sessionrestore_handle_session_change")
+    OnMessage(WM_WTSSESSION_CHANGE, sessionrestore_handle_session_change)
 
     NOTIFY_FOR_THIS_SESSION := 0
     result := DllCall("Wtsapi32.dll\WTSRegisterSessionNotification", "uint", hw_ahk, "uint", NOTIFY_FOR_THIS_SESSION)
 
     if (!result) {
-        MsgBox_error("sessionrestore_init: WTSRegisterSessionNotification has failed!")
+        a2dlg_error("sessionrestore_init: WTSRegisterSessionNotification has failed!")
     }
 }
 

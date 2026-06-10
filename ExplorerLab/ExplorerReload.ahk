@@ -1,4 +1,7 @@
-﻿
+﻿#Include <a2dlg>
+#Include <processes>
+
+
 ExplorerHotkeys_ReloadAll() {
     a2tip("Getting Explorers ...")
     explorers := window_list(,,"CabinetWClass")
@@ -21,8 +24,8 @@ ExplorerHotkeys_ReloadAll() {
         txt := "Found no Explorer windows but " pids.Length " processes."
 
     a2tip()
-    txt .= "`n`nDo you want to shut down & reload now?"
-    if !msgbox_accepted(txt, "ExplorerHotkeys ReloadAll")
+    txt .= "`n`nDo you want to shut down and reload now?"
+    if !a2dlg_ok_cancel(txt, "ExplorerHotkeys ReloadAll")
         return
 
     for i, pid in pids
